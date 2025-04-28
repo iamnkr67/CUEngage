@@ -16,6 +16,7 @@ const path = require("path");
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static("uploads"));
 
 const contest = require("./routes/contest");
 app.use("/contestant", contest);
@@ -26,8 +27,8 @@ app.use("/admin", adminRouter);
 const pendingData = require("./routes/pending");
 app.use("/pending", pendingData);
 
-// const eventRoutes = require("./routes/event");
-// app.use("/event", eventRoutes);
+const eventRoutes = require("./routes/event");
+app.use("/event", eventRoutes);
 
 const storage = multer.diskStorage({
   destination: "uploads/",
