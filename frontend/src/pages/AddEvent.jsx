@@ -25,10 +25,8 @@ const AddEvent = () => {
   });
 
   const getFileName = (fullPath) => {
-    // Check if path includes "uploads" (to handle platform-specific paths)
-    const pathParts = fullPath.split("uploads\\"); // For Windows paths
-    // For Linux/Mac use: const pathParts = fullPath.split('uploads/');
-    return pathParts.length > 1 ? pathParts[1] : fullPath; // Return the filename after 'uploads\'
+    const pathParts = fullPath.split("uploads\\");
+    return pathParts.length > 1 ? pathParts[1] : fullPath;
   };
 
   useEffect(() => {
@@ -129,7 +127,6 @@ const AddEvent = () => {
           poster: null,
           eFile: null,
         });
-        // Redirect to '/viewevents' after successful update
         navigate("/viewevent");
       } else {
         toast.error("Something went wrong. Please try again.");
@@ -195,8 +192,8 @@ const AddEvent = () => {
               required
               className="w-full p-3 rounded bg-gray-700 text-white"
             />
-            <div className="flex flex-wrap items-center space-x-4">
-              <div className="flex items-center space-x-2 p-4 border-2 border-dashed border-gray-500 rounded">
+            <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4">
+              <div className="flex items-center space-x-2 p-4 border-2 border-dashed border-gray-500 rounded w-full sm:w-auto">
                 <label htmlFor="eFile" className="text-sm font-medium">
                   Upload File:
                 </label>
@@ -220,7 +217,7 @@ const AddEvent = () => {
                   </a>
                 )}
               </div>
-              <div className="flex items-center space-x-2 p-4 border-2 border-dashed border-gray-500 rounded">
+              <div className="flex items-center space-x-2 p-4 border-2 border-dashed border-gray-500 rounded w-full sm:w-auto">
                 <label htmlFor="poster" className="text-sm font-medium">
                   Upload Poster:
                 </label>

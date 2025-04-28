@@ -94,6 +94,14 @@ const AdminNavbar = () => {
               Add Event
             </Link>
           </li>
+          <li>
+            <Link
+              to="/viewevent"
+              className="block text-white hover:text-red-500 transition duration-200"
+            >
+              View/Edit Event
+            </Link>
+          </li>
         </ul>
       )}
     </nav>
