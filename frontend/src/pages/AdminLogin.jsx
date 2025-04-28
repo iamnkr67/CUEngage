@@ -35,6 +35,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
       );
 
       if (response.status === 200) {
+        localStorage.setItem("authToken", response.data.authToken);
         setMessage({ type: "success", text: "Login successful!" });
         if (onLoginSuccess) onLoginSuccess();
         navigate("/dashboard");
