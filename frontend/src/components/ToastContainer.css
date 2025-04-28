@@ -1,0 +1,28 @@
+/* Custom styles for ToastContainer */
+.toast-container {
+  margin-top: 20px; /* Adds spacing from the top */
+  margin-right: 20px; /* Adds spacing from the right */
+}
+
+/* Make ToastContainer responsive for smaller screens */
+@media (max-width: 768px) {
+  .toast-container {
+    margin-top: 10px; /* Less margin on mobile */
+    margin-right: 10px; /* Less margin on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .toast-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: 5px auto; /* Less margin for very small screens */
+  }
+  .Toastify__toast {
+    border-radius: 12px; /* Ensure rounded corners apply */
+    font-size: 14px; /* Adjust text size for better readability */
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
+}
