@@ -26,8 +26,8 @@ app.use("/admin", adminRouter);
 const pendingData = require("./routes/pending");
 app.use("/pending", pendingData);
 
-const eventRoutes = require("./routes/event");
-app.use("/event", eventRoutes);
+// const eventRoutes = require("./routes/event");
+// app.use("/event", eventRoutes);
 
 const storage = multer.diskStorage({
   destination: "uploads/",
@@ -40,8 +40,8 @@ const upload = multer({ storage });
 
 const Seat = require("./model/pendingSchema");
 
-cron.schedule("*/1 * * * *", async () => {
-  // Runs every 1 minutes
+cron.schedule("*/10 * * * *", async () => {
+  // Runs every 10 minutes
   try {
     console.log("Checking for approved seats...");
 

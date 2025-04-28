@@ -1,6 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logo from "../assets/logo.gif";
+import logo from "../assets/logo.svg";
 import { navItems } from "../constants";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -32,6 +32,8 @@ const Navbar = () => {
                 onClick={handleClick}
                 onContextMenu={(e) => e.preventDefault()}
               />
+
+              {/* <h1 className="text-2xl font-bold ">CUEngage</h1> */}
             </Link>
           </div>
           <ul className="hidden lg:flex ml-14 space-x-12">
