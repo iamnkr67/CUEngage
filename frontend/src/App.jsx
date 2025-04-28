@@ -1,42 +1,39 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import FeatureSection from "./components/FeatureSection";
 import Footer from "./components/Footer";
 import ImageSlider from "./components/ImageSlider";
-import TimelineSection from "./components/TimelineSection";
-import AdminLogin from "./pages/AdminLogin";
 import SeatLayout from "./components/SeatLayout";
+import AdminLogin from "./pages/AdminLogin";
 import AdminDashBoard from "./pages/AdminDashBoard";
 import AdminNavbar from "./pages/AdminNavbar";
 import AddEvent from "./pages/AddEvent";
 import ViewEvent from "./pages/ViewEvent";
 
 const App = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
-    setIsAdmin(true);
   };
-
-  // const [stars, setStars] = useState([]);
-
-  // const handleMouseMove = (e) => {
-  //   const { clientX, clientY } = e;
-  //   setStars((prevStars) => [...prevStars, { x: clientX, y: clientY }]);
-
-  //   setTimeout(() => {
-  //     setStars((prevStars) => prevStars.slice(1));
-  //   }, 500);
-  // };
 
   return (
     <Router>
       <Routes>
-        {/* Home Page */}
         <Route
           path="/"
           element={
@@ -46,14 +43,11 @@ const App = () => {
                 <HeroSection />
                 <FeatureSection />
                 <ImageSlider />
-                {/* <TimelineSection /> */}
                 <Footer />
               </div>
             </>
           }
         />
-
-        {/* Seat Booking Page */}
         <Route
           path="/book-seat"
           element={
@@ -66,18 +60,10 @@ const App = () => {
             </>
           }
         />
-
-        {/* Admin Login Page */}
         <Route
           path="/adminlogin"
-          element={
-            <>
-              <AdminLogin onLoginSuccess={handleLoginSuccess} />
-            </>
-          }
+          element={<AdminLogin onLoginSuccess={handleLoginSuccess} />}
         />
-
-        {/* Admin Dashboard */}
         <Route
           path="/dashboard"
           element={
@@ -87,10 +73,7 @@ const App = () => {
                 <AdminDashBoard />
               </>
             ) : (
-              <>
-                <AdminNavbar />
-                <AdminLogin onLoginSuccess={handleLoginSuccess} />
-              </>
+              <Navigate to="/adminlogin" />
             )
           }
         />
@@ -103,10 +86,7 @@ const App = () => {
                 <AddEvent />
               </>
             ) : (
-              <>
-                <AdminNavbar />
-                <AdminLogin onLoginSuccess={handleLoginSuccess} />
-              </>
+              <Navigate to="/adminlogin" />
             )
           }
         />
@@ -119,10 +99,7 @@ const App = () => {
                 <ViewEvent />
               </>
             ) : (
-              <>
-                <AdminNavbar />
-                <AdminLogin onLoginSuccess={handleLoginSuccess} />
-              </>
+              <Navigate to="/adminlogin" />
             )
           }
         />
@@ -135,10 +112,7 @@ const App = () => {
                 <AddEvent />
               </>
             ) : (
-              <>
-                <AdminNavbar />
-                <AdminLogin onLoginSuccess={handleLoginSuccess} />
-              </>
+              <Navigate to="/adminlogin" />
             )
           }
         />
