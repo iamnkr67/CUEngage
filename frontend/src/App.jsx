@@ -11,8 +11,7 @@ import SeatLayout from "./components/SeatLayout";
 import AdminDashBoard from "./pages/AdminDashBoard";
 import AdminNavbar from "./pages/AdminNavbar";
 import AddEvent from "./pages/AddEvent";
-import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import ViewEvent from "./pages/ViewEvent";
 
 const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -47,7 +46,7 @@ const App = () => {
                 <HeroSection />
                 <FeatureSection />
                 <ImageSlider />
-                <TimelineSection />
+                {/* <TimelineSection /> */}
                 <Footer />
               </div>
             </>
@@ -97,6 +96,38 @@ const App = () => {
         />
         <Route
           path="/addevent"
+          element={
+            isLoggedIn ? (
+              <>
+                <AdminNavbar />
+                <AddEvent />
+              </>
+            ) : (
+              <>
+                <AdminNavbar />
+                <AdminLogin onLoginSuccess={handleLoginSuccess} />
+              </>
+            )
+          }
+        />
+        <Route
+          path="/viewevent"
+          element={
+            isLoggedIn ? (
+              <>
+                <AdminNavbar />
+                <ViewEvent />
+              </>
+            ) : (
+              <>
+                <AdminNavbar />
+                <AdminLogin onLoginSuccess={handleLoginSuccess} />
+              </>
+            )
+          }
+        />
+        <Route
+          path="/addevent/:eventId"
           element={
             isLoggedIn ? (
               <>

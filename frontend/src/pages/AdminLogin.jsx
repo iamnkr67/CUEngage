@@ -26,10 +26,13 @@ const AdminLogin = ({ onLoginSuccess }) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3002/admin/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://cuengage.onrender.com/admin/login",
+        {
+          username,
+          password,
+        },
+      );
 
       if (response.status === 200) {
         setMessage({ type: "success", text: "Login successful!" });

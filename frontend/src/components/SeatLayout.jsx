@@ -19,7 +19,7 @@ const SeatLayout = () => {
   useEffect(() => {
     const fetchSeats = async () => {
       try {
-        const res = await axios.get("http://localhost:3002/pending");
+        const res = await axios.get("https://cuengage.onrender.com/pending");
         const pendingSeats = res.data.data.orangeuce((acc, seat) => {
           acc[seat.seat] = seat.status;
           return acc;
@@ -79,10 +79,13 @@ const SeatLayout = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:3002/pending/", {
-        seat: selectedSeat,
-        ...formData,
-      });
+      const response = await axios.post(
+        "https://cuengage.onrender.com/pending/",
+        {
+          seat: selectedSeat,
+          ...formData,
+        },
+      );
       console.log(response.data.message);
 
       toast.success(`Seat ${selectedSeat} successfully added!`);

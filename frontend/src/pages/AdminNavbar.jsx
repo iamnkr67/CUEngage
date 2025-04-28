@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/logo.gif";
+import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
@@ -14,7 +14,13 @@ const AdminNavbar = () => {
         {/* Logo */}
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
-            <img className="h-10 w-10 mr-2" src={logo} alt="Logo" />
+            <img
+              className="h-10 w-18 mr-2"
+              src={logo}
+              alt="Logo"
+              draggable="false"
+              onContextMenu={(e) => e.preventDefault()}
+            />
           </Link>
         </div>
 
@@ -39,6 +45,14 @@ const AdminNavbar = () => {
               className="hover:text-red-500 transition duration-200"
             >
               Add Event
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/viewevent"
+              className="hover:text-red-500 transition duration-200"
+            >
+              View/Edit Event
             </Link>
           </li>
         </ul>

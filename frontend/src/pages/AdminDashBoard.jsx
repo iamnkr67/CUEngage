@@ -23,7 +23,7 @@ const AdminDashboard = () => {
     setViewMode("contestants");
     try {
       const response = await axios.get(
-        "http://localhost:3002/contestant/getData",
+        "https://cuengage.onrender.com/contestant/getData",
       );
       setContestants(response.data.data);
     } catch (err) {
@@ -75,9 +75,12 @@ const AdminDashboard = () => {
     setApprovedSeats([]);
     setViewMode(status);
     try {
-      const response = await axios.get(`http://localhost:3002/pending`, {
-        params: { status },
-      });
+      const response = await axios.get(
+        `https://cuengage.onrender.com/pending`,
+        {
+          params: { status },
+        },
+      );
       const seats = response.data.data;
       setSeats(seats.filter((s) => s.status === "pending"));
       setApprovedSeats(seats.filter((s) => s.status === "approved"));
@@ -104,7 +107,7 @@ const AdminDashboard = () => {
 
   const handleApprove = async (seatId) => {
     try {
-      await axios.patch(`http://localhost:3002/pending/${seatId}`, {
+      await axios.patch(`https://cuengage.onrender.com/pending/${seatId}`, {
         status: "approved",
       });
       alert("Seat approved successfully!");
@@ -119,7 +122,7 @@ const AdminDashboard = () => {
 
   const handleReject = async (seatId) => {
     try {
-      await axios.delete(`http://localhost:3002/pending/${seatId}`);
+      await axios.delete(`https://cuengage.onrender.com/pending/${seatId}`);
       setSeats((prev) => prev.filter((s) => s._id !== seatId));
       alert("Seat rejected successfully!");
       closeConfirmationDialog();

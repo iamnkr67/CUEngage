@@ -32,8 +32,6 @@ const Navbar = () => {
                 onClick={handleClick}
                 onContextMenu={(e) => e.preventDefault()}
               />
-
-              {/* <h1 className="text-2xl font-bold ">CUEngage</h1> */}
             </Link>
           </div>
           <ul className="hidden lg:flex ml-14 space-x-12">

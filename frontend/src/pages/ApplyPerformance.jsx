@@ -10,7 +10,7 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
     rollNo: "",
     phone: "",
     year: "",
-    program:"",
+    program: "",
     act: "",
   });
 
@@ -36,7 +36,7 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3002/contestant",
+        "https://cuengage.onrender.com/contestant",
         formData,
       );
       if (
@@ -52,7 +52,7 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
       if (err.response) {
         toast.error(
           err.response.data.message ||
-            "An error occurred while submitting your application."
+            "An error occurred while submitting your application.",
         );
       } else if (err.request) {
         toast.error("No response from server. Please try again later.");

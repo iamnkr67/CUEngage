@@ -7,23 +7,27 @@ const eventSchema = new mongoose.Schema({
   },
   eDescript: {
     type: String,
-    required: true
+    required: true,
   },
   eDate: {
     type: Date,
-    required: true
+    required: true,
   },
   venue: {
     type: String,
-    required: true
+    required: true,
+  },
+  oragnizer: {
+    type: String,
+    required: true,
   },
   poster: {
     type: String,
-    required: true
+    required: true,
   },
   eFile: {
     type: String,
-    required: true
+    required: true,
   },
 });
 
