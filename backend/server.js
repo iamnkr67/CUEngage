@@ -16,7 +16,8 @@ const db = require("./config/dbConnect");
 
 app.use(cors());
 app.use(express.json());
-app.use( express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 const contest = require("./routes/contest");
 app.use("/contestant", contest);

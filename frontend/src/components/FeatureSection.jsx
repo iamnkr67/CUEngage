@@ -43,7 +43,7 @@ const FeatureSection = () => {
             className="flex flex-col p-4 border border-neutral-700 rounded-lg bg-neutral-900 shadow-md cursor-pointer transition transform w-full h-[530px]"
           >
             {event.poster && (
-              <div className="w-full h-[180px] mb-4 flex items-center justify-center bg-transparent rounded-lg overflow-hidden">
+              <div className="w-full h-32 mb-4 overflow-hidden rounded-lg">
                 <img
                   src={event.poster}
                   alt="Event Poster"
@@ -117,7 +117,8 @@ const FeatureSection = () => {
                 <X size={20} />
               </button>
 
-              <div className="w-full h-[300px] mb-6 flex items-center justify-center bg-transparent rounded-lg overflow-hidden">
+              {/* Event Poster */}
+              <div className="w-full h-56 mb-6 overflow-hidden rounded-lg">
                 <img
                   src={selectedEvent.poster}
                   alt="Event Poster"
