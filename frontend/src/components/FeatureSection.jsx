@@ -56,7 +56,7 @@ const FeatureSection = () => {
             className="flex flex-col p-4 border border-neutral-700 rounded-lg bg-neutral-900 shadow-md cursor-pointer transition transform min-h-[450px]" // important fix
           >
             {event.poster && (
-              <div className="w-full h-32 mb-4 overflow-hidden rounded-lg">
+              <div className="w-full h-32 mb-4 bg-contain overflow-hidden rounded-lg">
                 <img
                   src={`https://cuengage.onrender.com/uploads/${getFixedFileUrl(
                     event.poster,
@@ -138,7 +138,7 @@ const FeatureSection = () => {
               </button>
 
               {/* Event Poster */}
-              <div className="w-full h-56 mb-6 overflow-hidden rounded-lg">
+              <div className="w-full h-56 mb-6 bg-contain overflow-hidden rounded-lg">
                 <img
                   src={`https://cuengage.onrender.com/uploads/${getFixedFileUrl(
                     selectedEvent.poster,
