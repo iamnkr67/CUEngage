@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,14 +18,9 @@ import AddEvent from "./pages/AddEvent";
 import ViewEvent from "./pages/ViewEvent";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("authToken"),
+  );
 
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
