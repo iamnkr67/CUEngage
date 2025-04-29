@@ -17,6 +17,7 @@ import AdminNavbar from "./pages/AdminNavbar";
 import AddEvent from "./pages/AddEvent";
 import ViewEvent from "./pages/ViewEvent";
 
+
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("authToken"),

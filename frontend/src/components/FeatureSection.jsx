@@ -47,7 +47,7 @@ const FeatureSection = () => {
                 <img
                   src={event.poster}
                   alt="Event Poster"
-                  className="object-contain w-full h-full rounded-lg"
+                  className="object-cover w-full h-full rounded"
                 />
               </div>
             )}
@@ -122,7 +122,7 @@ const FeatureSection = () => {
                 <img
                   src={selectedEvent.poster}
                   alt="Event Poster"
-                  className="object-contain w-full h-full rounded-lg"
+                  className="object-contain w-full h-full rounded"
                 />
               </div>
 
