@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middleware/fileUpload");
+const uploadToCloudinary = require("../middleware/cloudinaryUpload");
+
 const {
   addEvent,
   getAllEvent,
@@ -11,14 +12,14 @@ const {
 
 router.post(
   "/add",
-  upload.fields([{ name: "poster" }, { name: "eFile" }]),
+  uploadToCloudinary.fields([{ name: "poster" }, { name: "eFile" }]),
   addEvent,
 );
 router.get("/getAll", getAllEvent);
 router.get("/getID/:id", getAllEventID);
 router.put(
   "/update/:id",
-  upload.fields([{ name: "poster" }, { name: "eFile" }]),
+  uploadToCloudinary.fields([{ name: "poster" }, { name: "eFile" }]),
   updateEvent,
 );
 router.delete("/delete/:id", deleteEvent);

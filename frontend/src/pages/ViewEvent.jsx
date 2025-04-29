@@ -43,11 +43,6 @@ const ViewEvents = () => {
     }
   };
 
-  const getFileName = (fullPath) => {
-    const pathParts = fullPath.split("uploads\\");
-    return pathParts.length > 1 ? pathParts[1] : fullPath;
-  };
-
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <h2 className="text-3xl font-bold text-center mb-8">All Events</h2>
@@ -81,9 +76,7 @@ const ViewEvents = () => {
             <p className="text-gray-300 mb-4">{event.eDescript}</p>
             {event.poster && (
               <img
-                src={`https://cuengage.onrender.com/uploads/${getFileName(
-                  event.poster,
-                )}`}
+                src={event.poster}
                 alt="Event Poster"
                 className="w-full h-64 object-cover rounded"
               />

@@ -7,19 +7,6 @@ const FeatureSection = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  const getFixedFileUrl = (filePath) => {
-    const index = filePath.lastIndexOf("uploads\\");
-    if (index !== -1) {
-      return filePath.substring(index + 8); // 8 = length of "uploads\\"
-    }
-    // Try for Linux/Mac paths if needed
-    const indexUnix = filePath.lastIndexOf("uploads/");
-    if (indexUnix !== -1) {
-      return filePath.substring(indexUnix + 8); // 8 = length of "uploads/"
-    }
-    return filePath; // fallback, if "uploads/" not found
-  };
-
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -53,36 +40,31 @@ const FeatureSection = () => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
             whileHover={{ scale: 1.05 }}
-            className="flex flex-col p-4 border border-neutral-700 rounded-lg bg-neutral-900 shadow-md cursor-pointer transition transform min-h-[450px]" // important fix
+            className="flex flex-col p-4 border border-neutral-700 rounded-lg bg-neutral-900 shadow-md cursor-pointer transition transform w-full h-[530px]"
           >
             {event.poster && (
-              <div className="w-full h-32 mb-4 overflow-hidden rounded-lg">
+              <div className="w-full h-[180px] mb-4 flex items-center justify-center bg-transparent rounded-lg overflow-hidden">
                 <img
-                  src={`https://cuengage.onrender.com/uploads/${getFixedFileUrl(
-                    event.poster,
-                  )}`}
+                  src={event.poster}
                   alt="Event Poster"
-                  className="object-cover w-full h-full"
+                  className="object-contain w-full h-full rounded-lg"
                 />
               </div>
             )}
 
-            {/* Title with fixed height */}
             <h2 className="text-lg font-semibold text-center min-h-[60px] flex items-center justify-center">
-              {event.eName}{" "}
+              {event.eName}
               <span className="text-red-500 ml-1">
                 {new Date(event.eDate).getFullYear()}
               </span>
             </h2>
 
-            {/* Description with fixed height */}
             <p className="text-sm p-2 mb-4 text-neutral-500 text-center min-h-[100px]">
               {event.eDescript.length > 100
                 ? `${event.eDescript.substring(0, 100)}...`
                 : event.eDescript}
             </p>
 
-            {/* Details Section */}
             <div className="flex flex-col items-center gap-2 mb-4 min-h-[100px]">
               <div className="flex items-center gap-2 text-neutral-300">
                 <Users size={18} />
@@ -103,10 +85,9 @@ const FeatureSection = () => {
 
             <div className="flex-grow"></div>
 
-            {/* See More Button */}
             <button
               onClick={() => setSelectedEvent(event)}
-              className="bg-gradient-to-r from-red-500 to-blue-790 py-3 px-4 mx-3 rounded-md border opacity-100 hover:opacity-100 transition duration-300 ease-in-out transform hover:scale-105"
+              className="bg-gradient-to-r from-red-500 to-blue-700 py-3 px-4 mx-3 rounded-md border opacity-100 hover:opacity-100 transition duration-300 ease-in-out transform hover:scale-105"
             >
               See More
             </button>
@@ -127,45 +108,37 @@ const FeatureSection = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.5, opacity: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              className="relative bg-neutral-800 p-8 rounded-lg shadow-2xl w-full max-w-4xl h-[90vh] overflow-y-auto scrollbar-hide" // important part
+              className="relative bg-neutral-800 p-8 rounded-lg shadow-2xl w-full max-w-4xl h-[90vh] overflow-y-auto scrollbar-hide"
             >
-              {/* Close Button */}
               <button
                 onClick={() => setSelectedEvent(null)}
                 className="absolute top-1 right-1 text-white text-red-500 hover:text-red-700 p-1 cursor-pointer transition duration-200"
               >
-                <X size={20} /> {/* Using Lucide X Icon */}
+                <X size={20} />
               </button>
 
-              {/* Event Poster */}
-              <div className="w-full h-56 mb-6 overflow-hidden rounded-lg">
+              <div className="w-full h-[300px] mb-6 flex items-center justify-center bg-transparent rounded-lg overflow-hidden">
                 <img
-                  src={`https://cuengage.onrender.com/uploads/${getFixedFileUrl(
-                    selectedEvent.poster,
-                  )}`}
+                  src={selectedEvent.poster}
                   alt="Event Poster"
-                  className="object-cover w-full h-full"
+                  className="object-contain w-full h-full rounded-lg"
                 />
               </div>
 
-              {/* Event Title */}
               <h2 className="text-3xl font-bold text-center text-white mb-4">
                 {selectedEvent.eName}
               </h2>
 
-              {/* Organizer Name */}
               <div className="flex items-center gap-2 text-neutral-300 mb-4">
                 <Users size={20} />
                 <p className="font-semibold">Organized By:</p>
                 <span>{selectedEvent.oragnizer}</span>
               </div>
 
-              {/* Event Description */}
               <p className="text-md text-neutral-400 mb-6 text-center">
                 {selectedEvent.eDescript}
               </p>
 
-              {/* Event Date */}
               <div className="flex items-center gap-2 text-neutral-300 mb-4">
                 <Calendar size={20} />
                 <span>
@@ -173,27 +146,42 @@ const FeatureSection = () => {
                 </span>
               </div>
 
-              {/* Event Venue */}
               <div className="flex items-center gap-2 text-neutral-300 mb-4">
                 <MapPin size={20} />
                 <span>{selectedEvent.venue}</span>
               </div>
 
-              {/* Event File */}
-              <div className="flex items-center gap-2 text-neutral-300 mt-4">
-                <Paperclip size={20} />
-                <a
-                  href={`https://cuengage.onrender.com/uploads/${getFixedFileUrl(
-                    selectedEvent.eFile,
-                  )}`}
-                  download
-                  className="underline hover:text-white cursor-pointer"
-                >
-                  {selectedEvent.eFile.includes("-")
-                    ? selectedEvent.eFile.split("-")[1]
-                    : selectedEvent.eFile}
-                </a>
-              </div>
+              {selectedEvent.eFile && (
+                <div className="flex items-center gap-2 text-neutral-300 mt-4">
+                  <Paperclip size={20} />
+                  <a
+                    href={selectedEvent.eFile}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-white cursor-pointer"
+                  >
+                    {(() => {
+                      const fileName = selectedEvent.eFile.split("/").pop();
+                      const displayName = fileName.includes("-")
+                        ? fileName.split("-").slice(1).join("-")
+                        : fileName;
+                      return decodeURIComponent(displayName);
+                    })()}
+                  </a>
+                </div>
+              )}
+
+              {selectedEvent.eFile.endsWith(".pdf") && (
+                <div className="mt-6 w-full h-[500px]">
+                  <embed
+                    src={selectedEvent.eFile}
+                    type="application/pdf"
+                    width="100%"
+                    height="100%"
+                    className="rounded-lg"
+                  />
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}

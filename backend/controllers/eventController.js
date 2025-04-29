@@ -14,8 +14,8 @@ const addEvent = async (req, res) => {
     ) {
       return res.status(400).json({ message: "All fields are required." });
     }
-    const poster = req.files.poster[0].filename;
-    const eFile = req.files.eFile[0].filename;
+    const poster = req.files.poster[0].path;
+    const eFile = req.files.eFile[0].path;
 
     const newEvent = new Event({
       eName,
@@ -57,7 +57,6 @@ const getAllEventID = async (req, res) => {
       return res.status(404).json({ message: "Event not found" });
     }
     res.status(200).json({ event });
-  
   } catch (error) {
     res
       .status(500)
@@ -71,10 +70,10 @@ const updateEvent = async (req, res) => {
   try {
     const updateData = { eName, eDescript, eDate, venue, oragnizer };
     if (req.files.poster) {
-      updateData.poster = req.files.poster[0].filename;
+      updateData.poster = req.files.poster[0].path;
     }
     if (req.files.eFile) {
-      updateData.eFile = req.files.eFile[0].filename;
+      updateData.eFile = req.files.eFile[0].path;
     }
 
     const updatedEvent = await Event.findByIdAndUpdate(id, updateData, {

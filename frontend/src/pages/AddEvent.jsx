@@ -24,11 +24,6 @@ const AddEvent = () => {
     eFile: null,
   });
 
-  const getFileName = (fullPath) => {
-    const pathParts = fullPath.split("uploads\\");
-    return pathParts.length > 1 ? pathParts[1] : fullPath;
-  };
-
   useEffect(() => {
     if (eventId) {
       setIsEditMode(true);
@@ -53,16 +48,8 @@ const AddEvent = () => {
           poster: null,
         });
         setPreview({
-          poster: event.poster
-            ? `https://cuengage.onrender.com/uploads/${getFileName(
-                event.poster,
-              )}`
-            : null,
-          eFile: event.eFile
-            ? `https://cuengage.onrender.com/uploads/${getFileName(
-                event.eFile,
-              )}`
-            : null,
+          poster: event.poster ? event.poster : null,
+          eFile: event.eFile ? event.eFile : null,
         });
       }
     } catch (error) {
