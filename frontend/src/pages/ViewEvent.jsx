@@ -58,15 +58,6 @@ const ViewEvents = () => {
             className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col"
           >
             <div className="flex justify-between items-center mb-4">
-              {event.poster && (
-                <img
-                  src={`https://cuengage.onrender.com/uploads/${getFileName(
-                    event.poster,
-                  )}`}
-                  alt="Event Poster"
-                  className="w-full h-64 object-cover rounded"
-                />
-              )}
               <h2 className="text-lg font-semibold text-center min-h-[60px] flex items-center justify-center">
                 {event.eName}{" "}
                 <span className="text-red-500 ml-1">
@@ -88,6 +79,15 @@ const ViewEvents = () => {
               </div>
             </div>
             <p className="text-gray-300 mb-4">{event.eDescript}</p>
+            {event.poster && (
+              <img
+                src={`https://cuengage.onrender.com/uploads/${getFileName(
+                  event.poster,
+                )}`}
+                alt="Event Poster"
+                className="w-full h-64 object-cover rounded"
+              />
+            )}
           </div>
         ))}
       </div>
