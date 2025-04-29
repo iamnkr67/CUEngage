@@ -47,7 +47,7 @@ const FeatureSection = () => {
                 <img
                   src={event.poster}
                   alt="Event Poster"
-                  className="object-cover w-full h-full rounded"
+                  className="object-cover w-full h-auto rounded"
                 />
               </div>
             )}
