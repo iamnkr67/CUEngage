@@ -69,7 +69,7 @@ const FeatureSection = () => {
               <div className="flex items-center gap-2 text-neutral-300">
                 <Users size={18} />
                 <p>Organized By:</p>
-                <span className="text-sm">{event.oragnizer}</span>
+                <span className="text-sm">{event.organizer}</span>
               </div>
               <div className="flex items-center gap-2 text-neutral-300">
                 <Calendar size={18} />
@@ -133,7 +133,7 @@ const FeatureSection = () => {
               <div className="flex items-center gap-2 text-neutral-300 mb-4">
                 <Users size={20} />
                 <p className="font-semibold">Organized By:</p>
-                <span>{selectedEvent.oragnizer}</span>
+                <span>{selectedEvent.organizer}</span>
               </div>
 
               <p className="text-md text-neutral-400 mb-6 text-center">

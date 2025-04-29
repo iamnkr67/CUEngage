@@ -15,7 +15,7 @@ const AddEvent = () => {
     eventDescription: "",
     eventDate: "",
     venue: "",
-    oragnizer: "",
+    organizer: "",
     eFile: null,
     poster: null,
   });
@@ -43,7 +43,7 @@ const AddEvent = () => {
           eventDescription: event.eDescript || "",
           eventDate: event.eDate ? event.eDate.slice(0, 10) : "",
           venue: event.venue || "",
-          oragnizer: event.oragnizer || "",
+          organizer: event.organizer || "",
           eFile: null,
           poster: null,
         });
@@ -78,7 +78,7 @@ const AddEvent = () => {
     formData.append("eDescript", eventData.eventDescription);
     formData.append("eDate", eventData.eventDate);
     formData.append("venue", eventData.venue);
-    formData.append("oragnizer", eventData.oragnizer);
+    formData.append("organizer", eventData.organizer);
     if (eventData.eFile) formData.append("eFile", eventData.eFile);
     if (eventData.poster) formData.append("poster", eventData.poster);
 
@@ -106,7 +106,7 @@ const AddEvent = () => {
           eventDescription: "",
           eventDate: "",
           venue: "",
-          oragnizer: "",
+          organizer: "",
           eFile: null,
           poster: null,
         });
@@ -172,9 +172,9 @@ const AddEvent = () => {
             />
             <input
               type="text"
-              name="oragnizer"
+              name="organizer"
               placeholder="Organized By"
-              value={eventData.oragnizer}
+              value={eventData.organizer}
               onChange={handleChange}
               required
               className="w-full p-3 rounded bg-gray-700 text-white"

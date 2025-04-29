@@ -2,15 +2,15 @@ const Event = require("../model/eventSchema");
 
 const addEvent = async (req, res) => {
   try {
-    const { eName, eDescript, eDate, venue, oragnizer } = req.body;
+    const { eName, eDescript, eDate, venue, organizer } = req.body;
     if (
       !eName ||
       !eDescript ||
       !eDate ||
       !venue ||
-      !oragnizer ||
-      !req.files.poster ||
-      !req.files.eFile
+      !organizer ||
+      !req.files?.poster ||
+      !req.files?.eFile
     ) {
       return res.status(400).json({ message: "All fields are required." });
     }
@@ -22,12 +22,12 @@ const addEvent = async (req, res) => {
       eDescript,
       eDate,
       venue,
-      oragnizer,
+      organizer,
       poster,
       eFile,
     });
-    res.status(200).json({ message: "Event added successfully", newEvent });
     await newEvent.save();
+    res.status(200).json({ message: "Event added successfully", newEvent });
   } catch (error) {
     res
       .status(500)
@@ -66,9 +66,9 @@ const getAllEventID = async (req, res) => {
 
 const updateEvent = async (req, res) => {
   const { id } = req.params;
-  const { eName, eDescript, eDate, venue, oragnizer } = req.body;
+  const { eName, eDescript, eDate, venue, organizer } = req.body;
   try {
-    const updateData = { eName, eDescript, eDate, venue, oragnizer };
+    const updateData = { eName, eDescript, eDate, venue, organizer };
     if (req.files.poster) {
       updateData.poster = req.files.poster[0].path;
     }

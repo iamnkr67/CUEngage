@@ -11,13 +11,12 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const db = require("./config/dbConnect");
 
 app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 
 const contest = require("./routes/contest");
 app.use("/contestant", contest);
