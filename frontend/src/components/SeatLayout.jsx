@@ -121,7 +121,7 @@ const SeatLayout = () => {
         />
       </div>
 
-      <div className="relative left-1/4 rounded-lg text-center font-bold items-center justify-center text-lg text-red-500 border border-gray-300">
+      <div className="relative left-1/4 rounded-lg text-center font-semi items-center justify-center  text-red-500 border border-gray-300">
         <select
           id="department"
           name="department"
