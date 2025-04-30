@@ -56,12 +56,12 @@ const AdminDashboard = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
     doc.text("Approved Seats List", 14, 20);
-    const tableColumn = ["Name", "Roll No", "Seat Number", "Semester"];
+    const tableColumn = ["Name", "Roll No", "Seat Number", "department"];
     const tableRows = approvedSeats.map((s) => [
       s.name,
       s.rollNo,
       s.seat,
-      s.semester,
+      s.department,
     ]);
     doc.autoTable({ startY: 30, head: [tableColumn], body: tableRows });
     doc.save("ApprovedSeatsList.pdf");
@@ -232,7 +232,7 @@ const AdminDashboard = () => {
                 <th className="border border-gray-600 px-4 py-2">
                   Seat Number
                 </th>
-                <th className="border border-gray-600 px-4 py-2">Semester</th>
+                <th className="border border-gray-600 px-4 py-2">department</th>
                 <th className="border border-gray-600 px-4 py-2">Status</th>
                 <th className="border border-gray-600 px-4 py-2">Actions</th>
               </tr>
@@ -246,7 +246,7 @@ const AdminDashboard = () => {
                   </td>
                   <td className="border border-gray-600 px-4 py-2">{s.seat}</td>
                   <td className="border border-gray-600 px-4 py-2">
-                    {s.semester}
+                    {s.department}
                   </td>
                   <td className="border border-gray-600 px-4 py-2">
                     {s.status}
@@ -294,7 +294,7 @@ const AdminDashboard = () => {
                 <th className="border border-gray-600 px-4 py-2">
                   Seat Number
                 </th>
-                <th className="border border-gray-600 px-4 py-2">Semester</th>
+                <th className="border border-gray-600 px-4 py-2">department</th>
               </tr>
             </thead>
             <tbody>
@@ -306,7 +306,7 @@ const AdminDashboard = () => {
                   </td>
                   <td className="border border-gray-600 px-4 py-2">{s.seat}</td>
                   <td className="border border-gray-600 px-4 py-2">
-                    {s.semester}
+                    {s.department}
                   </td>
                 </tr>
               ))}
