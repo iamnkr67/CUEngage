@@ -161,13 +161,7 @@ const FeatureSection = () => {
                     rel="noopener noreferrer"
                     className="underline hover:text-white cursor-pointer"
                   >
-                    {(() => {
-                      const fileName = selectedEvent.eFile.split("/").pop();
-                      const displayName = fileName.includes("-")
-                        ? fileName.split("-").slice(1).join("-")
-                        : fileName;
-                      return decodeURIComponent(displayName);
-                    })()}
+                   
                   </a>
                 </div>
               )}
