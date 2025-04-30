@@ -6,11 +6,16 @@ import axios from "axios";
 
 const SeatLayout = () => {
   const [seat, setSeat] = useState([]);
+  const [event, setEvent] = useState([]);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isRollNoValid, setIsRollNoValid] = useState(false);
   const [seatStatus, setSeatStatus] = useState({});
   const [selectedSeat, setSelectedSeat] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [eventData, setEventData] = useState({
+    eName: "",
+  });
+
   const [formData, setFormData] = useState({
     name: "",
     rollNo: "",
@@ -31,6 +36,21 @@ const SeatLayout = () => {
       }
     };
     fetchSeats();
+  }, []);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const res = await axios.get(
+          "https://cuengage.onrender.com/event/getAll",
+        );
+        setEvent(res.data.events);
+        console.log(event.eName);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    };
+    fetchEvent();
   }, []);
 
   // Handle seat click
@@ -57,6 +77,13 @@ const SeatLayout = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEventChange = (e) => {
+    setEventData({
+      ...eventData,
       [e.target.name]: e.target.value,
     });
   };
@@ -121,21 +148,27 @@ const SeatLayout = () => {
         />
       </div>
 
-      <div className="relative left-1/4 rounded-lg text-center font-semi items-center justify-center  text-red-500 border border-gray-300">
+      <div className="relative w-32 p-2 left-1/4 rounded-lg text-center font-semibold items-center justify-center text-red-500 border overflow-hidden">
         <select
-          id="department"
-          name="department"
-          value={formData.department}
-          onChange={handleChange}
+          id="eventSelect"
+          name="eventSelect"
+          value={eventData.event}
+          onChange={handleEventChange}
           required
-          className="text-center text-red-500  p-2"
+          className="w-full text-red-500 truncate"
         >
           <option value="" disabled>
-            Select Event
+            Event
           </option>
-          <option value="BE-CSE">E1</option>
-          <option value="BCA">E2</option>
-          <option value="Nursing">E3</option>
+          {event.map((e) => (
+            <option
+              key={e._id}
+              value={e.eName}
+              className="text-red-500 truncate"
+            >
+              {e.eName}
+            </option>
+          ))}
         </select>
       </div>
 
