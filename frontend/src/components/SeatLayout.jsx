@@ -7,6 +7,7 @@ import axios from "axios";
 const SeatLayout = () => {
   const [seat, setSeat] = useState([]);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isRollNoValid, setIsRollNoValid] = useState(false);
   const [seatStatus, setSeatStatus] = useState({});
   const [selectedSeat, setSelectedSeat] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -14,13 +15,13 @@ const SeatLayout = () => {
     name: "",
     rollNo: "",
     email: "",
-    semester: "",
+    department: "",
   });
   useEffect(() => {
     const fetchSeats = async () => {
       try {
         const res = await axios.get("https://cuengage.onrender.com/pending");
-        const pendingSeats = res.data.data.orangeuce((acc, seat) => {
+        const pendingSeats = res.data.data.reduce((acc, seat) => {
           acc[seat.seat] = seat.status;
           return acc;
         }, {});
@@ -61,7 +62,7 @@ const SeatLayout = () => {
   };
 
   const getSeatColor = (seat) => {
-    if (seatStatus[seat] === "pending") return "orange";
+    if (seatStatus[seat] === "pending") return "red";
     if (seatStatus[seat] === "approved") return "#00B386";
     return "";
   };
@@ -103,7 +104,7 @@ const SeatLayout = () => {
           toast.error(error.response.data.message);
         }
       } else {
-        toast.error("An error occurorange. Please try again.");
+        toast.error("An error occurred. Please try again.");
       }
       console.error("Error submitting seat data:", error);
     }
@@ -145,7 +146,7 @@ const SeatLayout = () => {
                 {["A10", "A9", "A8", "A7", "A6"].map((seat, index) => (
                   <div
                     key={index}
-                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500 ${
+                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500 ${
                       seat === "A7" || seat === "A6" ? "text-white" : ""
                     }`}
                     style={{ backgroundColor: getSeatColor(seat) }}
@@ -158,7 +159,7 @@ const SeatLayout = () => {
                 {["A5", "A4", "A3", "A2", "A1"].map((seat, index) => (
                   <div
                     key={index}
-                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500 ${
+                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500 ${
                       seat === "A7" || seat === "A6" ? "text-white" : ""
                     }`}
                     style={{ backgroundColor: getSeatColor(seat) }}
@@ -176,7 +177,7 @@ const SeatLayout = () => {
                 {["B10", "B9", "B8", "B7", "B6"].map((seat, index) => (
                   <div
                     key={index}
-                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500 ${
+                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500 ${
                       seat === "B7" || seat === "B6" ? "text-white" : ""
                     }`}
                     style={{ backgroundColor: getSeatColor(seat) }}
@@ -192,7 +193,7 @@ const SeatLayout = () => {
                 {["B5", "B4", "B3", "B2", "B1"].map((seat, index) => (
                   <div
                     key={index}
-                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500 ${
+                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500 ${
                       seat === "B7" || seat === "B6" ? "text-white" : ""
                     }`}
                     style={{ backgroundColor: getSeatColor(seat) }}
@@ -209,7 +210,7 @@ const SeatLayout = () => {
                 {["C12", "C11", "C10", "C9", "C8", "C7"].map((seat, index) => (
                   <div
                     key={index}
-                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500 ${
+                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500 ${
                       seat === "C7" || seat === "C8" ? "text-white" : ""
                     }`}
                     style={{ backgroundColor: getSeatColor(seat) }}
@@ -225,7 +226,7 @@ const SeatLayout = () => {
                 {["C6", "C5", "C4", "C3", "C2", "C1"].map((seat, index) => (
                   <div
                     key={index}
-                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500 ${
+                    className={`rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500 ${
                       seat === "C7" || seat === "C8" ? "text-white" : ""
                     }`}
                     style={{ backgroundColor: getSeatColor(seat) }}
@@ -242,7 +243,7 @@ const SeatLayout = () => {
                 {["D12", "D11", "D10", "D9", "D8", "D7"].map((seat, index) => (
                   <div
                     key={index}
-                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                     style={{ backgroundColor: getSeatColor(seat) }}
                     onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                   >
@@ -256,7 +257,7 @@ const SeatLayout = () => {
                 {["D6", "D5", "D4", "D3", "D2", "D1"].map((seat, index) => (
                   <div
                     key={index}
-                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                     style={{ backgroundColor: getSeatColor(seat) }}
                     onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                   >
@@ -271,7 +272,7 @@ const SeatLayout = () => {
                 {["E12", "E11", "E10", "E9", "E8", "E7"].map((seat, index) => (
                   <div
                     key={index}
-                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                     style={{ backgroundColor: getSeatColor(seat) }}
                     onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                   >
@@ -285,7 +286,7 @@ const SeatLayout = () => {
                 {["E6", "E5", "E4", "E3", "E2", "E1"].map((seat, index) => (
                   <div
                     key={index}
-                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                     style={{ backgroundColor: getSeatColor(seat) }}
                     onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                   >
@@ -301,7 +302,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -317,7 +318,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -333,7 +334,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -349,7 +350,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -365,7 +366,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -381,7 +382,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -397,7 +398,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -413,7 +414,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -429,7 +430,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -445,7 +446,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -470,7 +471,7 @@ const SeatLayout = () => {
                 ].map((seat, index) => (
                   <div
                     key={index}
-                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                     style={{ backgroundColor: getSeatColor(seat) }}
                     onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                   >
@@ -486,7 +487,7 @@ const SeatLayout = () => {
                   (seat, index) => (
                     <div
                       key={index}
-                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                      className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                       style={{ backgroundColor: getSeatColor(seat) }}
                       onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                     >
@@ -522,7 +523,7 @@ const SeatLayout = () => {
                 ].map((seat, index) => (
                   <div
                     key={index}
-                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                     style={{ backgroundColor: getSeatColor(seat) }}
                     onClick={() => handleSeatClick(seat)} // Dynamically pass the seat name
                   >
@@ -555,7 +556,7 @@ const SeatLayout = () => {
                 ].map((seat) => (
                   <div
                     key={seat} // Use the seat name as the key for each element
-                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-orange-500"
+                    className="rounded-md w-6 h-6 flex items-center justify-center cursor-pointer text-xs mx-0.5 border border-red-500 bg-transparent hover:bg-red-500"
                     style={{ backgroundColor: getSeatColor(seat) }}
                     onClick={() => handleSeatClick(seat)} // Pass the seat name dynamically
                   >
@@ -610,7 +611,7 @@ const SeatLayout = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+                  className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
                 />
               </div>
               <div className="relative">
@@ -622,9 +623,16 @@ const SeatLayout = () => {
                   value={formData.rollNo}
                   onChange={handleChange}
                   required
-                  className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+                  onFocus={() => setIsRollNoValid(true)}
+                  onBlur={() => setIsRollNoValid(false)}
+                  className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
                 />
               </div>
+              {isRollNoValid && (
+                <p className="text-center text-red-500 text-sm italic mb-3">
+                  Enter 10 digit <br /> Roll Number (e.g., 1234567890)
+                </p>
+              )}
               <div className="relative">
                 <input
                   type="email"
@@ -636,13 +644,13 @@ const SeatLayout = () => {
                   onFocus={() => setIsEmailFocused(true)}
                   onBlur={() => setIsEmailFocused(false)}
                   required
-                  className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+                  className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
                 />
               </div>
 
               {/* Email warning message */}
               {isEmailFocused && (
-                <p className="text-center text-orange-500 text-sm italic mb-3">
+                <p className="text-center text-red-500 text-sm italic mb-3">
                   Please enter a valid email. <br /> Your QR ID will be sent to
                   your email.
                 </p>
@@ -650,21 +658,20 @@ const SeatLayout = () => {
 
               <div className="relative">
                 <select
-                  id="semester"
-                  name="semester"
-                  value={formData.semester}
+                  id="department"
+                  name="department"
+                  value={formData.department}
                   onChange={handleChange}
                   required
-                  className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+                  className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
                 >
                   <option value="" disabled>
-                    Select Semester
+                    Department
                   </option>
-                  <option value="UG-sem1">UG SEM1</option>
-                  <option value="UG-3rd year">UG 3rd YEAR</option>
-                  <option value="UG-sem2">UG SEM2</option>
-                  <option value="PG-sem1">PG SEM1</option>
-                  <option value="PG-sem3">PG SEM3</option>
+                  <option value="becse">BE-CSE</option>
+                  <option value="bca">BCA</option>
+                  <option value="nursing">Nursing</option>
+                  <option value="pharmacy">Pharmacy</option>
                 </select>
               </div>
 
@@ -673,13 +680,13 @@ const SeatLayout = () => {
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  className="w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-orange-500 to-orange-800 hover:from-orange-200 hover:to-orange-800 transition duration-300"
+                  className="w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-red-500 to-red-800 hover:from-red-200 hover:to-red-800 transition duration-300"
                 >
                   Add Seat
                 </button>
                 <button
                   type="button"
-                  className="w-full py-3 text-white font-semibold rounded-lg bg-orange-500 hover:bg-orange-700 transition duration-300"
+                  className="w-full py-3 text-white font-semibold rounded-lg bg-red-500 hover:bg-red-700 transition duration-300"
                   onClick={handleCloseModal}
                 >
                   Cancel
