@@ -51,6 +51,7 @@ const AdminDashboard = () => {
     doc.save("ContestantsList.pdf");
   };
 
+  let count = 1;
   // Generate Approved Seats PDF
   const generateApprovedSeatsPDF = () => {
     const doc = new jsPDF();
@@ -188,21 +189,25 @@ const AdminDashboard = () => {
           <table className="w-full text-left border-collapse border border-gray-700">
             <thead>
               <tr className="bg-gray-800">
-                <th className="border border-gray-600 px-4 py-2">Roll No</th>
+                <th className="border border-gray-600 px-4 py-2">S.No</th>
                 <th className="border border-gray-600 px-4 py-2">Name</th>
+                <th className="border border-gray-600 px-4 py-2">Roll No</th>
                 <th className="border border-gray-600 px-4 py-2">Phone</th>
                 <th className="border border-gray-600 px-4 py-2">Year</th>
                 <th className="border border-gray-600 px-4 py-2">Act</th>
-                <th className="border border-gray-600 px-4 py-2">Program</th>
+                <th className="border border-gray-600 px-4 py-2">Department</th>
               </tr>
             </thead>
             <tbody>
               {contestants.map((c) => (
                 <tr key={c.rollNo} className="bg-gray-700">
                   <td className="border border-gray-600 px-4 py-2">
-                    {c.rollNo}
+                    {count++}
                   </td>
                   <td className="border border-gray-600 px-4 py-2">{c.name}</td>
+                  <td className="border border-gray-600 px-4 py-2">
+                    {c.rollNo}
+                  </td>
                   <td className="border border-gray-600 px-4 py-2">
                     {c.phone}
                   </td>
@@ -227,12 +232,13 @@ const AdminDashboard = () => {
           <table className="w-full text-left border-collapse border border-gray-700">
             <thead>
               <tr className="bg-gray-800">
+                <th className="border border-gray-600 px-4 py-2">S.No</th>
                 <th className="border border-gray-600 px-4 py-2">Name</th>
                 <th className="border border-gray-600 px-4 py-2">Roll No</th>
                 <th className="border border-gray-600 px-4 py-2">
                   Seat Number
                 </th>
-                <th className="border border-gray-600 px-4 py-2">department</th>
+                <th className="border border-gray-600 px-4 py-2">Department</th>
                 <th className="border border-gray-600 px-4 py-2">Status</th>
                 <th className="border border-gray-600 px-4 py-2">Actions</th>
               </tr>
@@ -240,6 +246,9 @@ const AdminDashboard = () => {
             <tbody>
               {seats.map((s) => (
                 <tr key={s._id} className="bg-gray-700">
+                  <td className="border border-gray-600 px-4 py-2">
+                    {count++}
+                  </td>
                   <td className="border border-gray-600 px-4 py-2">{s.name}</td>
                   <td className="border border-gray-600 px-4 py-2">
                     {s.rollNo}
@@ -289,17 +298,21 @@ const AdminDashboard = () => {
           <table className="w-full text-left border-collapse border border-gray-700">
             <thead>
               <tr className="bg-gray-800">
+                <th className="border border-gray-600 px-4 py-2">S.No</th>
                 <th className="border border-gray-600 px-4 py-2">Name</th>
                 <th className="border border-gray-600 px-4 py-2">Roll No</th>
                 <th className="border border-gray-600 px-4 py-2">
                   Seat Number
                 </th>
-                <th className="border border-gray-600 px-4 py-2">department</th>
+                <th className="border border-gray-600 px-4 py-2">Department</th>
               </tr>
             </thead>
             <tbody>
               {approvedSeats.map((s) => (
                 <tr key={s._id} className="bg-gray-700">
+                  <td className="border border-gray-600 px-4 py-2">
+                    {count++}{" "}
+                  </td>
                   <td className="border border-gray-600 px-4 py-2">{s.name}</td>
                   <td className="border border-gray-600 px-4 py-2">
                     {s.rollNo}

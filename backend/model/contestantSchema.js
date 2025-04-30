@@ -23,7 +23,7 @@ const contestantSchema = new mongoose.Schema(
     program: {
       type: String,
       required: true,
-      enum: ["becse", "bca", "nursing", "pharmacy"],
+      enum: ["BE-CSE", "BCA", "Nursing", "Pharmacy"],
     },
     act: {
       type: String,
@@ -35,7 +35,7 @@ const contestantSchema = new mongoose.Schema(
         "drama",
         "stand-up comedy",
         "others",
-      ], // Restricts values to predefined options
+      ],
     },
   },
   { timestamps: true }, // Adds createdAt and updatedAt timestamps

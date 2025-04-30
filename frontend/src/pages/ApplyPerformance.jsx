@@ -136,10 +136,10 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
             <option value="" disabled>
               Select Program
             </option>
-            <option value="becse">BE-CSE</option>
-            <option value="bca">BCA</option>
-            <option value="nursing">Nursing</option>
-            <option value="pharmacy">Pharmacy</option>
+            <option value="BE-CSE">BE-CSE</option>
+            <option value="BCA">BCA</option>
+            <option value="Nursing">Nursing</option>
+            <option value="Pharmacy">Pharmacy</option>
           </select>
           <button
             type="submit"

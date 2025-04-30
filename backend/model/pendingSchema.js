@@ -17,7 +17,7 @@ const pendingSchema = new mongoose.Schema({
   department: {
     type: String,
     required: true,
-    enum: ["becse", "bca", "nursing", "pharmacy"],
+    enum: ["BE-CSE", "BCA", "Nursing", "Pharmacy"],
   },
   seat: {
     type: String,

@@ -68,17 +68,17 @@ const ImageSlider = () => {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {images.map((image, index) => (
-            <div key={index} className="w-full flex-shrink-0 p-2">
+            <div key={index} className="w-full h-120 flex-shrink-0 p-2">
               <img
                 src={image}
                 alt={`Slide ${index}`}
-                className="w-full h-80 object-contain rounded-lg shadow-md"
+                className="w-full h-120 object-cover rounded-lg shadow-md"
               />
             </div>
           ))}
         </div>
         <button
-          className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
+          className="absolute top-72 left-4 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
           onClick={() =>
             setCurrentIndex((prev) =>
               prev === 0 ? images.length - 1 : prev - 1,
@@ -88,7 +88,7 @@ const ImageSlider = () => {
           &#8249;
         </button>
         <button
-          className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
+          className="absolute top-72 right-4 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
           onClick={() => setCurrentIndex((prev) => (prev + 1) % images.length)}
         >
           &#8250;
