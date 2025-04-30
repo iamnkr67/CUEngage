@@ -24,8 +24,8 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!/^\d{3}$/.test(formData.rollNo)) {
-      toast.warning("Roll number must be exactly 3 digits.");
+    if (!/^\d{10}$/.test(formData.rollNo)) {
+      toast.warning("Roll number must be exactly 10 digits.");
       return;
     }
 
@@ -78,7 +78,7 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
             name="name"
             placeholder="Name"
             required
-            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
             value={formData.name}
             onChange={handleChange}
           />
@@ -87,7 +87,7 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
             name="rollNo"
             placeholder="Roll No (3 digits)"
             required
-            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
             value={formData.rollNo}
             onChange={handleChange}
           />
@@ -96,7 +96,7 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
             name="phone"
             placeholder="Phone (10 digits)"
             required
-            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
             value={formData.phone}
             onChange={handleChange}
           />
@@ -105,14 +105,14 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
             name="year"
             placeholder="Semester"
             required
-            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
             value={formData.year}
             onChange={handleChange}
           />
           <select
             name="act"
             required
-            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
             value={formData.act}
             onChange={handleChange}
           >
@@ -129,15 +129,17 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
           <select
             name="program"
             required
-            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition duration-300"
+            className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
             value={formData.program}
             onChange={handleChange}
           >
             <option value="" disabled>
               Select Program
             </option>
-            <option value="ug">UG</option>
-            <option value="pg">PG</option>
+            <option value="becse">BE-CSE</option>
+            <option value="bca">BCA</option>
+            <option value="nursing">Nursing</option>
+            <option value="pharmacy">Pharmacy</option>
           </select>
           <button
             type="submit"
@@ -164,7 +166,7 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
               Your Application Submitted Successfully
             </h3>
             <button
-              className="mt-6 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-orange-700 transition duration-300"
+              className="mt-6 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition duration-300"
               onClick={() => {
                 setSuccessDialog(false);
                 closeModal();
