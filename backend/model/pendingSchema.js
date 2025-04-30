@@ -8,16 +8,16 @@ const pendingSchema = new mongoose.Schema({
   rollNo: {
     type: String,
     required: true,
-    match: /^\d{3}$/,
+    match: /^\d{10}$/,
   },
   email: {
     type: String,
     required: true,
   },
-  semester: {
+  department: {
     type: String,
     required: true,
-    enum: ["UG-sem1", "UG-3rd year", "UG-sem2", "PG-sem1", "PG-sem3"],
+    enum: ["becse", "bca", "nursing", "pharmacy"],
   },
   seat: {
     type: String,
