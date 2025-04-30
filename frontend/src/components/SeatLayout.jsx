@@ -5,7 +5,6 @@ import "./ToastContainer.css";
 import axios from "axios";
 
 const SeatLayout = () => {
-  const [seat, setSeat] = useState([]);
   const [event, setEvent] = useState([]);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isRollNoValid, setIsRollNoValid] = useState(false);
@@ -22,21 +21,6 @@ const SeatLayout = () => {
     email: "",
     department: "",
   });
-  // useEffect(() => {
-  //   const fetchSeats = async () => {
-  //     try {
-  //       const res = await axios.get("https://cuengage.onrender.com/pending");
-  //       const pendingSeats = res.data.data.reduce((acc, seat) => {
-  //         acc[seat.seat] = seat.status;
-  //         return acc;
-  //       }, {});
-  //       setSeatStatus(pendingSeats);
-  //     } catch (error) {
-  //       console.error("Error fetching pending seats:", error);
-  //     }
-  //   };
-  //   fetchSeats();
-  // }, []);
 
   useEffect(() => {
     const fetchSeats = async () => {
@@ -75,7 +59,6 @@ const SeatLayout = () => {
     fetchEvent();
   }, []);
 
-  // Handle seat click
   const handleSeatClick = (seat) => {
     if (seatStatus[seat] === "pending") {
       toast.warning(`Seat ${seat} is currently pending and cannot be booked.`);
@@ -90,7 +73,6 @@ const SeatLayout = () => {
     setModalOpen(true);
   };
 
-  // Close modal
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedSeat(null);
@@ -147,50 +129,6 @@ const SeatLayout = () => {
     }
     handleCloseModal();
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (seatStatus[selectedSeat] === "pending") {
-  //     toast.warning(
-  //       `Seat ${selectedSeat} is currently pending and cannot be booked.`,
-  //     );
-  //     return;
-  //   }
-  //   if (seatStatus[selectedSeat] === "approved") {
-  //     toast.error(`Seat ${selectedSeat} has already been booked.`);
-  //     return;
-  //   }
-  //   try {
-  //     const response = await axios.post(
-  //       "https://cuengage.onrender.com/pending?event={eName}",
-  //       {
-  //         seat: selectedSeat,
-  //         ...formData,
-  //       },
-  //     );
-  //     console.log(response.data.message);
-
-  //     toast.success(`Seat ${selectedSeat} successfully added!`);
-  //     setSeatStatus((prev) => ({
-  //       ...prev,
-  //       [selectedSeat]: "pending",
-  //     }));
-  //   } catch (error) {
-  //     if (error.response?.status === 400 && error.response.data?.message) {
-  //       if (error.response.data.message === "Roll number already booked.") {
-  //         toast.warning(
-  //           "Roll number already exists. Please enter a different one.",
-  //         );
-  //       } else {
-  //         toast.error(error.response.data.message);
-  //       }
-  //     } else {
-  //       toast.error("An error occurred. Please try again.");
-  //     }
-  //     console.error("Error submitting seat data:", error);
-  //   }
-  //   handleCloseModal();
-  // };
 
   return (
     <div className="p-2 min-h-screen flex flex-col items-center justify-center">
