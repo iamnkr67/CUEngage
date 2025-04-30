@@ -9,7 +9,7 @@ const contestantSchema = new mongoose.Schema(
     rollNo: {
       type: String,
       required: true,
-      match: /^\d{3}$/, // Validates roll number to be exactly 3 digits
+      match: /^\d{10}$/, // Validates roll number to be exactly 3 digits
     },
     phone: {
       type: String,
@@ -23,7 +23,7 @@ const contestantSchema = new mongoose.Schema(
     program: {
       type: String,
       required: true,
-      enum: ["ug", "pg"],
+      enum: ["becse", "bca", "nursing", "pharmacy"],
     },
     act: {
       type: String,
