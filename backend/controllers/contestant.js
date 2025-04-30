@@ -28,25 +28,12 @@ const add = async (req, res) => {
   }
 };
 
-// const getdata = async (req, res) => {
-//   try {
-//     const data = await Contestant.find();
-//     if (data) {
-//       res.status(200).json({ data });
-//     } else return res.status(400).json({ mes: "something wrong" });
-//   } catch (error) {
-//     res.status(500).json({ msg: error.message });
-//   }
-// };
-
 const getdata = async (req, res) => {
   try {
     const { event } = req.query;
     const query = event ? { eName: event } : {};
     const data = await Contestant.find(query);
-    if (data) {
-      res.status(200).json({ data });
-    } else return res.status(400).json({ mes: "something wrong" });
+    res.status(200).json({ data });
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
