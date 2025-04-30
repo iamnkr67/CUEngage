@@ -85,7 +85,7 @@ const ApplyPerformance = ({ isModalOpen, closeModal }) => {
           <input
             type="text"
             name="rollNo"
-            placeholder="Roll No (3 digits)"
+            placeholder="Roll No (2xxxxxxx90)"
             required
             className="block w-full px-4 py-3 bg-zinc-700 text-white border border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
             value={formData.rollNo}
