@@ -37,6 +37,10 @@ const contestantSchema = new mongoose.Schema(
         "others",
       ],
     },
+    eName: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }, // Adds createdAt and updatedAt timestamps
 );

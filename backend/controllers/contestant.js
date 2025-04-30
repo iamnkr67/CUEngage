@@ -2,9 +2,9 @@ const Contestant = require("../model/contestantSchema");
 
 const add = async (req, res) => {
   try {
-    const { name, rollNo, phone, year, act, program } = req.body;
+    const { name, rollNo, phone, year, act, program, eName } = req.body;
 
-    if (!name || !rollNo || !phone || !year || !act || !program) {
+    if (!name || !rollNo || !phone || !year || !act || !program || !eName) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -15,6 +15,7 @@ const add = async (req, res) => {
       year,
       act,
       program,
+      eName,
     });
     await newContestant.save();
 
@@ -27,9 +28,22 @@ const add = async (req, res) => {
   }
 };
 
+// const getdata = async (req, res) => {
+//   try {
+//     const data = await Contestant.find();
+//     if (data) {
+//       res.status(200).json({ data });
+//     } else return res.status(400).json({ mes: "something wrong" });
+//   } catch (error) {
+//     res.status(500).json({ msg: error.message });
+//   }
+// };
+
 const getdata = async (req, res) => {
   try {
-    const data = await Contestant.find();
+    const { event } = req.query;
+    const query = event ? { eName: event } : {};
+    const data = await Contestant.find(query);
     if (data) {
       res.status(200).json({ data });
     } else return res.status(400).json({ mes: "something wrong" });
