@@ -40,8 +40,9 @@ const SeatLayout = () => {
 
   useEffect(() => {
     const fetchSeats = async () => {
-      if (!eventData.eName) return;
+      if (!eventData.eName) return setSeatStatus({});
       setSeatStatus({});
+
       try {
         const res = await axios.get(
           `https://cuengage.onrender.com/pending?event=${eventData.eName}`,

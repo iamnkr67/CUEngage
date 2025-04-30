@@ -84,11 +84,20 @@ const AdminDashboard = () => {
   const generateContestantsPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
-    doc.setTextColor(0, 0, 0); // Set text color to black for event name
-    doc.text(selectedEvent, 14, 20); // Add event name at the top
-    doc.setFontSize(12); // Change font size for the table
-    const tableColumn = ["Roll No", "Name", "Phone", "Year", "Act", "Program"];
-    const tableRows = contestants.map((c) => [
+    doc.setTextColor(0, 0, 0);
+    doc.text(selectedEvent, 14, 20);
+    doc.setFontSize(12);
+    const tableColumn = [
+      "S.No",
+      "Roll No",
+      "Name",
+      "Phone",
+      "Year",
+      "Act",
+      "Department",
+    ];
+    const tableRows = contestants.map((c, index) => [
+      index + 1,
       c.rollNo,
       c.name,
       c.phone,
@@ -103,11 +112,18 @@ const AdminDashboard = () => {
   const generateApprovedSeatsPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
-    doc.setTextColor(0, 0, 0); // Set text color to black for event name
-    doc.text(selectedEvent, 14, 20); // Add event name at the top
-    doc.setFontSize(12); // Change font size for the table
-    const tableColumn = ["Name", "Roll No", "Seat Number", "Department"];
-    const tableRows = approvedSeats.map((s) => [
+    doc.setTextColor(0, 0, 0);
+    doc.text(selectedEvent, 14, 20);
+    doc.setFontSize(12);
+    const tableColumn = [
+      "S.No",
+      "Name",
+      "Roll No",
+      "Seat Number",
+      "Department",
+    ];
+    const tableRows = approvedSeats.map((s, index) => [
+      index + 1,
       s.name,
       s.rollNo,
       s.seat,
@@ -120,11 +136,18 @@ const AdminDashboard = () => {
   const generatePendingSeatsPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
-    doc.setTextColor(0, 0, 0); // Set text color to black for event name
-    doc.text(selectedEvent, 14, 20); // Add event name at the top
-    doc.setFontSize(12); // Change font size for the table
-    const tableColumn = ["Name", "Roll No", "Seat Number", "Department"];
-    const tableRows = seats.map((s) => [
+    doc.setTextColor(0, 0, 0);
+    doc.text(selectedEvent, 14, 20);
+    doc.setFontSize(12);
+    const tableColumn = [
+      "S.No",
+      "Name",
+      "Roll No",
+      "Seat Number",
+      "Department",
+    ];
+    const tableRows = seats.map((s, index) => [
+      index + 1,
       s.name,
       s.rollNo,
       s.seat,
@@ -202,7 +225,6 @@ const AdminDashboard = () => {
         </select>
       </div>
 
-      {/* Buttons visible only when an event is selected */}
       {selectedEvent && (
         <div className="space-y-4 mb-8 flex flex-wrap justify-center">
           <button
@@ -231,7 +253,7 @@ const AdminDashboard = () => {
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
-      {/* Render the tables based on viewMode */}
+
       {viewMode === "contestants" && contestants.length > 0 && (
         <div className="w-full max-w-5xl">
           <div className="flex justify-end mb-4">
