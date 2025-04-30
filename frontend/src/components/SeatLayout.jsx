@@ -22,10 +22,31 @@ const SeatLayout = () => {
     email: "",
     department: "",
   });
+  // useEffect(() => {
+  //   const fetchSeats = async () => {
+  //     try {
+  //       const res = await axios.get("https://cuengage.onrender.com/pending");
+  //       const pendingSeats = res.data.data.reduce((acc, seat) => {
+  //         acc[seat.seat] = seat.status;
+  //         return acc;
+  //       }, {});
+  //       setSeatStatus(pendingSeats);
+  //     } catch (error) {
+  //       console.error("Error fetching pending seats:", error);
+  //     }
+  //   };
+  //   fetchSeats();
+  // }, []);
+  
   useEffect(() => {
     const fetchSeats = async () => {
+      if (!eventData.eName) return;
+
       try {
-        const res = await axios.get("https://cuengage.onrender.com/pending");
+        const res = await axios.get(
+          `https://cuengage.onrender.com/pending?event=${eventData.eName}`,
+        );
+
         const pendingSeats = res.data.data.reduce((acc, seat) => {
           acc[seat.seat] = seat.status;
           return acc;
@@ -36,7 +57,8 @@ const SeatLayout = () => {
       }
     };
     fetchSeats();
-  }, []);
+  }, [eventData.eName]);
+
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -94,27 +116,24 @@ const SeatLayout = () => {
     return "";
   };
 
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (seatStatus[selectedSeat] === "pending") {
-      toast.warning(
-        `Seat ${selectedSeat} is currently pending and cannot be booked.`,
-      );
+    if (!eventData.eName) {
+      toast.warning("Please select an event first.");
       return;
     }
-    if (seatStatus[selectedSeat] === "approved") {
-      toast.error(`Seat ${selectedSeat} has already been booked.`);
-      return;
-    }
+
     try {
       const response = await axios.post(
-        "https://cuengage.onrender.com/pending/",
+        "https://cuengage.onrender.com/pending",
         {
           seat: selectedSeat,
+          event: eventData.eName,
           ...formData,
         },
       );
-      console.log(response.data.message);
 
       toast.success(`Seat ${selectedSeat} successfully added!`);
       setSeatStatus((prev) => ({
@@ -123,20 +142,57 @@ const SeatLayout = () => {
       }));
     } catch (error) {
       if (error.response?.status === 400 && error.response.data?.message) {
-        if (error.response.data.message === "Roll number already booked.") {
-          toast.warning(
-            "Roll number already exists. Please enter a different one.",
-          );
-        } else {
-          toast.error(error.response.data.message);
-        }
+        toast.warning(error.response.data.message);
       } else {
         toast.error("An error occurred. Please try again.");
       }
-      console.error("Error submitting seat data:", error);
     }
     handleCloseModal();
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (seatStatus[selectedSeat] === "pending") {
+  //     toast.warning(
+  //       `Seat ${selectedSeat} is currently pending and cannot be booked.`,
+  //     );
+  //     return;
+  //   }
+  //   if (seatStatus[selectedSeat] === "approved") {
+  //     toast.error(`Seat ${selectedSeat} has already been booked.`);
+  //     return;
+  //   }
+  //   try {
+  //     const response = await axios.post(
+  //       "https://cuengage.onrender.com/pending?event={eName}",
+  //       {
+  //         seat: selectedSeat,
+  //         ...formData,
+  //       },
+  //     );
+  //     console.log(response.data.message);
+
+  //     toast.success(`Seat ${selectedSeat} successfully added!`);
+  //     setSeatStatus((prev) => ({
+  //       ...prev,
+  //       [selectedSeat]: "pending",
+  //     }));
+  //   } catch (error) {
+  //     if (error.response?.status === 400 && error.response.data?.message) {
+  //       if (error.response.data.message === "Roll number already booked.") {
+  //         toast.warning(
+  //           "Roll number already exists. Please enter a different one.",
+  //         );
+  //       } else {
+  //         toast.error(error.response.data.message);
+  //       }
+  //     } else {
+  //       toast.error("An error occurred. Please try again.");
+  //     }
+  //     console.error("Error submitting seat data:", error);
+  //   }
+  //   handleCloseModal();
+  // };
 
   return (
     <div className="p-2 min-h-screen flex flex-col items-center justify-center">
@@ -148,16 +204,16 @@ const SeatLayout = () => {
         />
       </div>
 
-      <div className="relative w-32 p-2 left-1/4 rounded-lg text-center font-semibold items-center justify-center text-red-500 border overflow-hidden">
+      <div className="relative w-32 p-2 m-2 left-1/4 rounded-lg text-center font-semibold items-center justify-center text-red-500 border overflow-hidden">
         <select
           id="eventSelect"
-          name="eventSelect"
+          name="eName"
           value={eventData.event}
           onChange={handleEventChange}
           required
           className="w-full text-red-500 truncate"
         >
-          <option value="" disabled>
+          <option value="" className="text-gray-500">
             Event
           </option>
           {event.map((e) => (
@@ -171,6 +227,12 @@ const SeatLayout = () => {
           ))}
         </select>
       </div>
+
+      {eventData.eName && (
+        <div className="text-center text-red-300 font-semibold mb-5">
+          <h1>{eventData.eName}</h1>
+        </div>
+      )}
 
       <div className="rounded-lg w-60 h-auto mb-4 flex text-center font-bold items-center justify-center text-lg text-red-500 mx-0.5 border border-gray-300">
         <i className="fas fa-film"></i> &nbsp;

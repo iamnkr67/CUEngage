@@ -31,6 +31,10 @@ const pendingSchema = new mongoose.Schema({
     type: Boolean,
     default: false, // To track if the email has been sent
   },
+  event: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("pendings", pendingSchema);

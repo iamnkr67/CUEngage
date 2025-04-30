@@ -1,20 +1,49 @@
 const Pending = require("../model/pendingSchema");
 
+// const addPendingStatus = async (req, res) => {
+//   try {
+//     const { name, rollNo, email, department, seat } = req.body;
+
+//     if (!name || !rollNo || !email || !department || !seat) {
+//       return res.status(400).json({ message: "All fields are required." });
+//     }
+
+//     const newPending = new Pending({name,rollNo,email,department,seat});
+
+//     // const rollData = await Pending.findOne({ rollNo });
+//     // if (rollData) {
+//     //   return res.status(400).json({ message: "Roll number already booked." });
+//     // }
+//     await newPending.save();
+//     return res.status(201).json({ msg: "Pending data Submitted Successfully" });
+//   } catch (error) {
+//     console.error("Error adding pending status:", error);
+//     res.status(500).json({ message: "Internal server error." });
+//   }
+// };
 const addPendingStatus = async (req, res) => {
   try {
-    const { name, rollNo, email, department, seat } = req.body;
+    const { name, rollNo, email, department, seat, event } = req.body;
 
-    if (!name || !rollNo || !email || !department || !seat) {
+    if (!name || !rollNo || !email || !department || !seat || !event) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    const newPending = new Pending({name,rollNo,email,department,seat});
+    const existing = await Pending.findOne({ rollNo, event });
+    if (existing) {
+      return res.status(400).json({ message: "Roll number already booked." });
+    }
 
-    // const rollData = await Pending.findOne({ rollNo });
-    // if (rollData) {
-    //   return res.status(400).json({ message: "Roll number already booked." });
-    // }
+    const newPending = new Pending({
+      name,
+      rollNo,
+      email,
+      department,
+      seat,
+      event,
+    });
     await newPending.save();
+
     return res.status(201).json({ msg: "Pending data Submitted Successfully" });
   } catch (error) {
     console.error("Error adding pending status:", error);
@@ -22,9 +51,27 @@ const addPendingStatus = async (req, res) => {
   }
 };
 
+
+// const getPendingData = async (req, res) => {
+//   try {
+//     const data = await Pending.find(); 
+//     if (data.length > 0) {
+//       return res.status(200).json({ data });
+//     } else {
+//       return res.status(400).json({ message: "No pending seats found" });
+//     }
+//   } catch (error) {
+//     console.error("Error fetching pending data:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
+
 const getPendingData = async (req, res) => {
   try {
-    const data = await Pending.find(); 
+    const { event } = req.query;
+    const filter = event ? { event } : {};
+
+    const data = await Pending.find(filter);
     if (data.length > 0) {
       return res.status(200).json({ data });
     } else {
