@@ -121,6 +121,24 @@ const SeatLayout = () => {
         />
       </div>
 
+      <div className="relative left-1/4 rounded-lg text-center font-bold items-center justify-center text-lg text-red-500 border border-gray-300">
+        <select
+          id="department"
+          name="department"
+          value={formData.department}
+          onChange={handleChange}
+          required
+          className="text-center text-red-500  p-2"
+        >
+          <option value="" disabled>
+            Select Event
+          </option>
+          <option value="BE-CSE">E1</option>
+          <option value="BCA">E2</option>
+          <option value="Nursing">E3</option>
+        </select>
+      </div>
+
       <div className="rounded-lg w-60 h-auto mb-4 flex text-center font-bold items-center justify-center text-lg text-red-500 mx-0.5 border border-gray-300">
         <i className="fas fa-film"></i> &nbsp;
         <div className="text-left">
