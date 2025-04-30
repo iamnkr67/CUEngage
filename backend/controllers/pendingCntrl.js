@@ -2,13 +2,13 @@ const Pending = require("../model/pendingSchema");
 
 const addPendingStatus = async (req, res) => {
   try {
-    const { name, rollNo, email, semester, seat } = req.body;
+    const { name, rollNo, email, department, seat } = req.body;
 
-    if (!name || !rollNo || !email || !semester || !seat) {
+    if (!name || !rollNo || !email || !department || !seat) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    const newPending = new Pending({name,rollNo,email,semester,seat});
+    const newPending = new Pending({name,rollNo,email,department,seat});
 
     // const rollData = await Pending.findOne({ rollNo });
     // if (rollData) {
