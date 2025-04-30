@@ -86,9 +86,19 @@ const ViewEvents = () => {
             </div>
 
             <p className="text-gray-300 mb-4">
-              {expandedEvent === event._id
-                ? event.eDescript
-                : truncateDescription(event.eDescript)}
+              {expandedEvent === event._id ? (
+                // Render HTML description for the expanded view
+                <div
+                  className="event-description"
+                  dangerouslySetInnerHTML={{ __html: event.eDescript }}
+                />
+              ) : (
+                // Truncated description when collapsed, ensuring no HTML tags are displayed
+                truncateDescription(
+                  event.eDescript.replace(/<\/?[^>]+(>|$)/g, ""),
+                )
+              )}
+
               {event.eDescript.split(" ").length > 20 && (
                 <button
                   onClick={() => handleToggleDescription(event._id)}

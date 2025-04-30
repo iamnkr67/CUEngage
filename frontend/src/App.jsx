@@ -19,6 +19,7 @@ import ViewEvent from "./pages/ViewEvent";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./components/ToastContainer.css";
+import "./index.css";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(

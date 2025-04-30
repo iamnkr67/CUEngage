@@ -15,3 +15,44 @@
     border-color: transparent;
   }
 }
+
+/* Hide scrollbar for all scrollable elements */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: none; /* Hide scrollbar */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+body {
+  overflow-y: scroll; /* Enables scroll without causing scrollbar flash */
+}
+
+.event-description a {
+  color: rgb(255, 29, 4);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.event-description a:hover {
+  text-decoration: underline;
+  color: rgb(190, 79, 79);
+}
+.event-description strong {
+  font-weight: 700;
+}
+
+.event-description em {
+  font-style: italic;
+}
+
+.event-description blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #555;
+}

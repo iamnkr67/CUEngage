@@ -1,11 +1,22 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Paperclip, Calendar, MapPin, Users, X } from "lucide-react";
+import {
+  Paperclip,
+  Calendar,
+  MapPin,
+  Users,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import "./ToastContainer.css";
 import axios from "axios";
 
 const FeatureSection = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [currentStartIndex, setCurrentStartIndex] = useState(0);
+  const cardsPerPage = 4;
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -21,6 +32,28 @@ const FeatureSection = () => {
     fetchEvents();
   }, []);
 
+  const truncateHTML = (htmlString, maxChars = 50) => {
+    const div = document.createElement("div");
+    div.innerHTML = htmlString;
+    const text = div.textContent || div.innerText || "";
+    return text.length > maxChars ? text.substring(0, maxChars) + "..." : text;
+  };
+
+  const handlePrev = () => {
+    setCurrentStartIndex((prev) => Math.max(prev - cardsPerPage, 0));
+  };
+
+  const handleNext = () => {
+    setCurrentStartIndex((prev) =>
+      Math.min(prev + cardsPerPage, events.length - cardsPerPage),
+    );
+  };
+
+  const visibleEvents = events.slice(
+    currentStartIndex,
+    currentStartIndex + cardsPerPage,
+  );
+
   return (
     <div
       id="events"
@@ -32,15 +65,15 @@ const FeatureSection = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6">
-        {events.map((event, index) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 px-6">
+        {visibleEvents.map((event, index) => (
           <motion.div
             key={index}
             initial={{ x: "100%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
             whileHover={{ scale: 1.05 }}
-            className="flex flex-col p-4 border border-neutral-700 rounded-lg bg-neutral-900 shadow-md cursor-pointer transition transform w-full h-[530px]"
+            className="flex flex-col p-4 border border-neutral-700 rounded-lg bg-neutral-900 shadow-md cursor-pointer transition transform w-[300px] h-[530px]" // Fixed width and height for consistency
           >
             {event.poster && (
               <div className="w-full h-32 mb-4 overflow-hidden rounded-lg">
@@ -51,43 +84,51 @@ const FeatureSection = () => {
                 />
               </div>
             )}
-
-            <h2 className="text-lg font-semibold text-center min-h-[60px] flex items-center justify-center">
+            <h2 className="text-lg font-semibold text-center min-h-[60px] flex items-center justify-center text-balance break-words px-2 w-full">
               {event.eName}
               <span className="text-red-500 ml-1">
                 {new Date(event.eDate).getFullYear()}
               </span>
             </h2>
 
-            <p className="text-sm p-2 mb-4 text-neutral-500 text-center min-h-[100px]">
-              {event.eDescript.length > 100
-                ? `${event.eDescript.substring(0, 100)}...`
-                : event.eDescript}
-            </p>
+            <p
+              className="text-sm p-2 mb-4 text-neutral-500 text-center min-h-[100px]"
+              dangerouslySetInnerHTML={{
+                __html: truncateHTML(event.eDescript, 100),
+              }}
+            />
 
-            <div className="flex flex-col items-center gap-2 mb-4 min-h-[100px]">
-              <div className="flex items-center gap-2 text-neutral-300">
-                <Users size={18} />
-                <p>Organized By:</p>
-                <span className="text-sm">{event.organizer}</span>
+            <div className="flex flex-col items-start gap-2 mt-4 w-full">
+              <div className="flex items-center gap-2 text-neutral-300 w-full">
+                <Users size={18} className="text-red-500" />
+                <span className="text-sm text-balance break-words w-[250px]">
+                  {" "}
+                  {/* Fixed width for consistency */}
+                  {event.organizer}
+                </span>
               </div>
-              <div className="flex items-center gap-2 text-neutral-300">
-                <Calendar size={18} />
-                <span className="text-sm">
+              <div className="flex items-center gap-2 text-neutral-300 w-full">
+                <Calendar size={18} className="text-red-500" />
+                <span className="text-sm w-[250px]">
+                  {" "}
+                  {/* Fixed width for consistency */}
                   {new Date(event.eDate).toLocaleDateString()}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-neutral-300">
-                <MapPin size={18} />
-                <span className="text-sm">{event.venue}</span>
+              <div className="flex items-center gap-2 text-neutral-300 w-full">
+                <MapPin size={18} className="text-red-500" />
+                <span className="text-sm w-[250px]">
+                  {" "}
+                  {/* Fixed width for consistency */}
+                  {event.venue}
+                </span>
               </div>
             </div>
 
-            <div className="flex-grow"></div>
-
+            <div className="flex-grow" />
             <button
               onClick={() => setSelectedEvent(event)}
-              className="bg-gradient-to-r from-red-500 to-blue-700 py-3 px-4 mx-3 rounded-md border opacity-100 hover:opacity-100 transition duration-300 ease-in-out transform hover:scale-105"
+              className="bg-gradient-to-r from-red-500 to-orange-800 py-3 px-4 mx-3 rounded-md border opacity-100 hover:opacity-100 transition duration-300 ease-in-out transform hover:scale-105"
             >
               See More
             </button>
@@ -95,6 +136,30 @@ const FeatureSection = () => {
         ))}
       </div>
 
+      <div className="flex justify-center items-center mt-4 gap-4">
+        <button
+          onClick={handlePrev}
+          disabled={currentStartIndex === 0}
+          className={`p-2 rounded-full hover:bg-neutral-700 ${
+            currentStartIndex === 0 ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+        >
+          <ChevronLeft />
+        </button>
+        <button
+          onClick={handleNext}
+          disabled={currentStartIndex + cardsPerPage >= events.length}
+          className={`p-2 rounded-full hover:bg-neutral-700 ${
+            currentStartIndex + cardsPerPage >= events.length
+              ? "opacity-50 cursor-not-allowed"
+              : ""
+          }`}
+        >
+          <ChevronRight />
+        </button>
+      </div>
+
+      {/* Modal for full event details */}
       <AnimatePresence>
         {selectedEvent && (
           <motion.div
@@ -112,12 +177,11 @@ const FeatureSection = () => {
             >
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="absolute top-1 right-1 text-white text-red-500 hover:text-red-700 p-1 cursor-pointer transition duration-200"
+                className="absolute top-1 right-1  text-red-500 hover:text-red-700 p-1 cursor-pointer transition duration-200"
               >
                 <X size={20} />
               </button>
 
-              {/* Event Poster */}
               <div className="w-full h-56 mb-6 overflow-hidden rounded-lg">
                 <img
                   src={selectedEvent.poster}
@@ -133,11 +197,16 @@ const FeatureSection = () => {
               <div className="flex items-center gap-2 text-neutral-300 mb-4">
                 <Users size={20} />
                 <p className="font-semibold">Organized By:</p>
-                <span>{selectedEvent.organizer}</span>
+                <span className="font-bold">{selectedEvent.organizer}</span>
               </div>
 
               <p className="text-md text-neutral-400 mb-6 text-center">
-                {selectedEvent.eDescript}
+                <span
+                  className="event-description"
+                  dangerouslySetInnerHTML={{
+                    __html: selectedEvent.eDescript,
+                  }}
+                />
               </p>
 
               <div className="flex items-center gap-2 text-neutral-300 mb-4">

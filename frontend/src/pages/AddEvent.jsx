@@ -5,6 +5,8 @@ import { Paperclip, Image } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../components/ToastContainer.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const AddEvent = () => {
   const { eventId } = useParams();
@@ -76,6 +78,7 @@ const AddEvent = () => {
     const formData = new FormData();
     formData.append("eName", eventData.eventName);
     formData.append("eDescript", eventData.eventDescription);
+
     formData.append("eDate", eventData.eventDate);
     formData.append("venue", eventData.venue);
     formData.append("organizer", eventData.organizer);
@@ -144,14 +147,20 @@ const AddEvent = () => {
               required
               className="w-full p-3 rounded bg-gray-700 text-white"
             />
-            <textarea
-              name="eventDescription"
-              placeholder="Event Description"
+            <ReactQuill
               value={eventData.eventDescription}
-              onChange={handleChange}
-              required
-              className="w-full p-3 rounded bg-gray-700 text-white"
+              onChange={(value) =>
+                setEventData((prev) => ({ ...prev, eventDescription: value }))
+              }
+              placeholder="Event Description"
+              className="w-full custom-quill bg-gray-700 text-white rounded"
+              style={{
+                maxHeight: "200px",
+                overflowY: "scroll",
+                scrollbarWidth: "none",
+              }}
             />
+
             <input
               type="date"
               name="eventDate"
