@@ -16,7 +16,9 @@ import AdminDashBoard from "./pages/AdminDashBoard";
 import AdminNavbar from "./pages/AdminNavbar";
 import AddEvent from "./pages/AddEvent";
 import ViewEvent from "./pages/ViewEvent";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./components/ToastContainer.css";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -28,92 +30,101 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Navbar />
-              <div className="max-w-7xl mx-auto pt-20 px-6">
-                <HeroSection />
-                <FeatureSection />
-                <ImageSlider />
+    <>
+      <div>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          className="toast-container"
+        />
+      </div>
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar />
+                <div className="max-w-7xl mx-auto pt-20 px-6">
+                  <HeroSection />
+                  <FeatureSection />
+                  <ImageSlider />
+                  <Footer />
+                </div>
+              </>
+            }
+          />
+          <Route
+            path="/book-seat"
+            element={
+              <>
+                <Navbar />
+                <div className="max-w-7xl mx-auto pt-20 px-6">
+                  <SeatLayout />
+                </div>
                 <Footer />
-              </div>
-            </>
-          }
-        />
-        <Route
-          path="/book-seat"
-          element={
-            <>
-              <Navbar />
-              <div className="max-w-7xl mx-auto pt-20 px-6">
-                <SeatLayout />
-              </div>
-              <Footer />
-            </>
-          }
-        />
-        <Route
-          path="/adminlogin"
-          element={<AdminLogin onLoginSuccess={handleLoginSuccess} />}
-        />
-        <Route
-          path="/dashboard"
-          element={
-            isLoggedIn ? (
-              <>
-                <AdminNavbar />
-                <AdminDashBoard />
               </>
-            ) : (
-              <Navigate to="/adminlogin" />
-            )
-          }
-        />
-        <Route
-          path="/addevent"
-          element={
-            isLoggedIn ? (
-              <>
-                <AdminNavbar />
-                <AddEvent />
-              </>
-            ) : (
-              <Navigate to="/adminlogin" />
-            )
-          }
-        />
-        <Route
-          path="/viewevent"
-          element={
-            isLoggedIn ? (
-              <>
-                <AdminNavbar />
-                <ViewEvent />
-              </>
-            ) : (
-              <Navigate to="/adminlogin" />
-            )
-          }
-        />
-        <Route
-          path="/addevent/:eventId"
-          element={
-            isLoggedIn ? (
-              <>
-                <AdminNavbar />
-                <AddEvent />
-              </>
-            ) : (
-              <Navigate to="/adminlogin" />
-            )
-          }
-        />
-      </Routes>
-    </Router>
+            }
+          />
+          <Route
+            path="/adminlogin"
+            element={<AdminLogin onLoginSuccess={handleLoginSuccess} />}
+          />
+          <Route
+            path="/dashboard"
+            element={
+              isLoggedIn ? (
+                <>
+                  <AdminNavbar />
+                  <AdminDashBoard />
+                </>
+              ) : (
+                <Navigate to="/adminlogin" />
+              )
+            }
+          />
+          <Route
+            path="/addevent"
+            element={
+              isLoggedIn ? (
+                <>
+                  <AdminNavbar />
+                  <AddEvent />
+                </>
+              ) : (
+                <Navigate to="/adminlogin" />
+              )
+            }
+          />
+          <Route
+            path="/viewevent"
+            element={
+              isLoggedIn ? (
+                <>
+                  <AdminNavbar />
+                  <ViewEvent />
+                </>
+              ) : (
+                <Navigate to="/adminlogin" />
+              )
+            }
+          />
+          <Route
+            path="/addevent/:eventId"
+            element={
+              isLoggedIn ? (
+                <>
+                  <AdminNavbar />
+                  <AddEvent />
+                </>
+              ) : (
+                <Navigate to="/adminlogin" />
+              )
+            }
+          />
+        </Routes>
+      </Router>
+    </>
   );
 };
 

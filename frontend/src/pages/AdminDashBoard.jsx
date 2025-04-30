@@ -140,7 +140,6 @@ const AdminDashboard = () => {
       headStyles: {
         fillColor: [240, 240, 240],
         textColor: [0, 0, 0],
-        
       },
     });
     doc.save(`${selectedEvent}_contestants.pdf`);
@@ -176,7 +175,6 @@ const AdminDashboard = () => {
       headStyles: {
         fillColor: [240, 240, 240],
         textColor: [0, 0, 0],
-        
       },
     });
     doc.save(filename);

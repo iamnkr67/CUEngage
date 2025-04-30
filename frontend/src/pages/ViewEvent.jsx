@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const ViewEvents = () => {
   const [events, setEvents] = useState([]);
+  const [expandedEvent, setExpandedEvent] = useState(null); // Track which event description is expanded
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +44,16 @@ const ViewEvents = () => {
     }
   };
 
+  const handleToggleDescription = (eventId) => {
+    setExpandedEvent(expandedEvent === eventId ? null : eventId);
+  };
+
+  const truncateDescription = (description, wordLimit = 50) => {
+    const words = description.split(" ");
+    if (words.length <= wordLimit) return description;
+    return words.slice(0, wordLimit).join(" ") + "...";
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <h2 className="text-3xl font-bold text-center mb-8">All Events</h2>
@@ -73,12 +84,26 @@ const ViewEvents = () => {
                 />
               </div>
             </div>
-            <p className="text-gray-300 mb-4">{event.eDescript}</p>
+
+            <p className="text-gray-300 mb-4">
+              {expandedEvent === event._id
+                ? event.eDescript
+                : truncateDescription(event.eDescript)}
+              {event.eDescript.split(" ").length > 20 && (
+                <button
+                  onClick={() => handleToggleDescription(event._id)}
+                  className="text-gray-500 mt-2 ml-3"
+                >
+                  {expandedEvent === event._id ? " see less " : "  see more"}
+                </button>
+              )}
+            </p>
+
             {event.poster && (
               <img
                 src={event.poster}
                 alt="Event Poster"
-                className="w-full h-64 object-cover rounded"
+                className="h-64 rounded"
               />
             )}
           </div>

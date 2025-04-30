@@ -129,7 +129,6 @@ const AddEvent = () => {
 
   return (
     <>
-      <ToastContainer position="top-center" />
       <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white p-6">
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-lg">
           <h2 className="text-2xl font-bold text-center mb-6">
@@ -193,7 +192,7 @@ const AddEvent = () => {
                   accept=".pdf,.doc,.docx,.txt"
                   className="hidden"
                 />
-                {preview.eFile && (
+                {preview.eFile && typeof preview.eFile === "string" && (
                   <a
                     href={preview.eFile}
                     target="_blank"

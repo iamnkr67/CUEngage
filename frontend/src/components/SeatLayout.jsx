@@ -132,14 +132,6 @@ const SeatLayout = () => {
 
   return (
     <div className="p-2 min-h-screen flex flex-col items-center justify-center">
-      <div>
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          className="toast-container"
-        />
-      </div>
-
       <div className="relative w-32 p-2 m-2 left-1/4 rounded-lg text-center font-semibold items-center justify-center text-red-500 border overflow-hidden">
         <select
           id="eventSelect"

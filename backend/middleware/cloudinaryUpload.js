@@ -13,6 +13,7 @@ const storage = new CloudinaryStorage({
       folder: folderName,
       resource_type: file.mimetype.startsWith("application/") ? "raw" : "image",
       public_id: `${Date.now()}-${baseName}${ext}`,
+      type: "upload",
     };
   },
 });

@@ -161,20 +161,13 @@ const FeatureSection = () => {
                     rel="noopener noreferrer"
                     className="underline hover:text-white cursor-pointer"
                   >
-                   
+                    {selectedEvent.eFile
+                      .split("/")
+                      .pop()
+                      .split("-")
+                      .slice(1)
+                      .join("-")}
                   </a>
-                </div>
-              )}
-
-              {selectedEvent.eFile.endsWith(".pdf") && (
-                <div className="mt-6 w-full h-[500px]">
-                  <embed
-                    src={selectedEvent.eFile}
-                    type="application/pdf"
-                    width="100%"
-                    height="100%"
-                    className="rounded-lg"
-                  />
                 </div>
               )}
             </motion.div>

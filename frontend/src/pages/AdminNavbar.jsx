@@ -11,9 +11,8 @@ const AdminNavbar = () => {
   return (
     <nav className="sticky top-0 z-50 py-3 backdrop-blur-lg border-b border-neutral-700/80 bg-gray-900 text-white">
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto flex items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className="flex items-center">
+          <Link to="/dashboard" className="flex items-center">
             <img
               className="h-10 w-18 mr-2"
               src={logo}
@@ -26,11 +25,6 @@ const AdminNavbar = () => {
 
         {/* Desktop Navigation */}
         <ul className="hidden lg:flex space-x-8">
-          <li>
-            <Link to="/" className="hover:text-red-500 transition duration-200">
-              Home
-            </Link>
-          </li>
           <li>
             <Link
               to="/dashboard"
