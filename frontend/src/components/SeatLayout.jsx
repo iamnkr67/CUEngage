@@ -37,11 +37,11 @@ const SeatLayout = () => {
   //   };
   //   fetchSeats();
   // }, []);
-  
+
   useEffect(() => {
     const fetchSeats = async () => {
       if (!eventData.eName) return;
-
+      setSeatStatus({});
       try {
         const res = await axios.get(
           `https://cuengage.onrender.com/pending?event=${eventData.eName}`,
@@ -58,7 +58,6 @@ const SeatLayout = () => {
     };
     fetchSeats();
   }, [eventData.eName]);
-
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -115,8 +114,6 @@ const SeatLayout = () => {
     if (seatStatus[seat] === "approved") return "#00B386";
     return "";
   };
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -208,7 +205,7 @@ const SeatLayout = () => {
         <select
           id="eventSelect"
           name="eName"
-          value={eventData.event}
+          value={eventData.eName}
           onChange={handleEventChange}
           required
           className="w-full text-red-500 truncate"

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Settings, Download, Home } from "lucide-react";
+import { Settings } from "lucide-react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
@@ -14,16 +14,37 @@ const AdminDashboard = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogAction, setDialogAction] = useState(null);
   const [currentSeat, setCurrentSeat] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState("");
 
-  // Fetch contestants data
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await axios.get(
+          "https://cuengage.onrender.com/event/getAll",
+        );
+        setEvents(res.data.events);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    };
+    fetchEvents();
+  }, []);
+
   const handleViewContestants = async () => {
-    setLoading(true);
-    setError(null);
+    if (!selectedEvent) return alert("Please select an event first.");
+    setContestants([]);
     setSeats([]);
+    setApprovedSeats([]);
+    setError(null);
+    setLoading(true);
     setViewMode("contestants");
     try {
       const response = await axios.get(
         "https://cuengage.onrender.com/contestant/getData",
+        {
+          params: { event: selectedEvent },
+        },
       );
       setContestants(response.data.data);
     } catch (err) {
@@ -33,11 +54,39 @@ const AdminDashboard = () => {
     }
   };
 
-  // Generate Contestants PDF
+  const handleSeats = async (status) => {
+    if (!selectedEvent) return alert("Please select an event first.");
+    setContestants([]);
+    setSeats([]);
+    setApprovedSeats([]);
+    setError(null);
+    setLoading(true);
+    setViewMode(status);
+    try {
+      const response = await axios.get(
+        "https://cuengage.onrender.com/pending",
+        {
+          params: { status, event: selectedEvent },
+        },
+      );
+      const seats = response.data.data;
+      setSeats(seats.filter((s) => s.status === "pending"));
+      setApprovedSeats(seats.filter((s) => s.status === "approved"));
+    } catch (err) {
+      if (err.response && err.response.status === 400)
+        setError("No seats booked.");
+      else setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const generateContestantsPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
-    doc.text("Contestants List", 14, 20);
+    doc.setTextColor(0, 0, 0); // Set text color to black for event name
+    doc.text(selectedEvent, 14, 20); // Add event name at the top
+    doc.setFontSize(12); // Change font size for the table
     const tableColumn = ["Roll No", "Name", "Phone", "Year", "Act", "Program"];
     const tableRows = contestants.map((c) => [
       c.rollNo,
@@ -51,13 +100,13 @@ const AdminDashboard = () => {
     doc.save("ContestantsList.pdf");
   };
 
-  let count = 1;
-  // Generate Approved Seats PDF
   const generateApprovedSeatsPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
-    doc.text("Approved Seats List", 14, 20);
-    const tableColumn = ["Name", "Roll No", "Seat Number", "department"];
+    doc.setTextColor(0, 0, 0); // Set text color to black for event name
+    doc.text(selectedEvent, 14, 20); // Add event name at the top
+    doc.setFontSize(12); // Change font size for the table
+    const tableColumn = ["Name", "Roll No", "Seat Number", "Department"];
     const tableRows = approvedSeats.map((s) => [
       s.name,
       s.rollNo,
@@ -68,30 +117,21 @@ const AdminDashboard = () => {
     doc.save("ApprovedSeatsList.pdf");
   };
 
-  // Fetch pending or approved seats
-  const handleSeats = async (status) => {
-    setLoading(true);
-    setError(null);
-    setSeats([]);
-    setApprovedSeats([]);
-    setViewMode(status);
-    try {
-      const response = await axios.get(
-        `https://cuengage.onrender.com/pending`,
-        {
-          params: { status },
-        },
-      );
-      const seats = response.data.data;
-      setSeats(seats.filter((s) => s.status === "pending"));
-      setApprovedSeats(seats.filter((s) => s.status === "approved"));
-    } catch (err) {
-      if (err.response && err.response.status === 400)
-        setError("No seats booked.");
-      else setError("An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const generatePendingSeatsPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.setTextColor(0, 0, 0); // Set text color to black for event name
+    doc.text(selectedEvent, 14, 20); // Add event name at the top
+    doc.setFontSize(12); // Change font size for the table
+    const tableColumn = ["Name", "Roll No", "Seat Number", "Department"];
+    const tableRows = seats.map((s) => [
+      s.name,
+      s.rollNo,
+      s.seat,
+      s.department,
+    ]);
+    doc.autoTable({ startY: 30, head: [tableColumn], body: tableRows });
+    doc.save("PendingSeatsList.pdf");
   };
 
   const openConfirmationDialog = (seatId, action) => {
@@ -140,42 +180,58 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white p-6">
-      {/* Header */}
       <div className="flex items-center space-x-4 mb-8">
         <Settings className="w-8 h-8 text-orange-500" />
         <h1 className="text-4xl font-bold">Admin Controls</h1>
         <Settings className="w-8 h-8 text-orange-500" />
       </div>
 
-      {/* Buttons */}
-      <div className="space-y-4 mb-8 flex flex-wrap justify-center">
-        <button
-          onClick={handleViewContestants}
-          className="bg-gradient-to-r from-green-500 to-green-700 text-white font-bold py-3 px-6 rounded-lg hover:from-green-600 hover:to-green-800 transition"
+      <div className="mb-6">
+        <label className="mr-2 font-semibold">Select Event:</label>
+        <select
+          value={selectedEvent}
+          onChange={(e) => setSelectedEvent(e.target.value)}
+          className="bg-gray-800 text-white px-4 py-2 rounded"
         >
-          View Contestants
-        </button>
-
-        <button
-          onClick={() => handleSeats("pending")}
-          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-blue-800 transition ml-4"
-        >
-          See Pending Seats
-        </button>
-
-        <button
-          onClick={() => handleSeats("approved")}
-          className="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-600 hover:to-purple-800 transition ml-4"
-        >
-          See Approved Seats
-        </button>
+          <option value="">-- Choose an Event --</option>
+          {events.map((event) => (
+            <option key={event._id} value={event.eName}>
+              {event.eName}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {/* Loading/Error */}
+      {/* Buttons visible only when an event is selected */}
+      {selectedEvent && (
+        <div className="space-y-4 mb-8 flex flex-wrap justify-center">
+          <button
+            onClick={handleViewContestants}
+            className="bg-gradient-to-r from-green-500 to-green-700 text-white font-bold py-3 px-6 rounded-lg hover:from-green-600 hover:to-green-800 transition"
+          >
+            View Contestants
+          </button>
+
+          <button
+            onClick={() => handleSeats("pending")}
+            className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-blue-800 transition ml-4"
+          >
+            See Pending Seats
+          </button>
+
+          <button
+            onClick={() => handleSeats("approved")}
+            className="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-600 hover:to-purple-800 transition ml-4"
+          >
+            See Approved Seats
+          </button>
+        </div>
+      )}
+
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
-      {/* Contestants Table */}
+      {/* Render the tables based on viewMode */}
       {viewMode === "contestants" && contestants.length > 0 && (
         <div className="w-full max-w-5xl">
           <div className="flex justify-end mb-4">
@@ -199,10 +255,10 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {contestants.map((c) => (
+              {contestants.map((c, index) => (
                 <tr key={c.rollNo} className="bg-gray-700">
                   <td className="border border-gray-600 px-4 py-2">
-                    {count++}
+                    {index + 1}
                   </td>
                   <td className="border border-gray-600 px-4 py-2">{c.name}</td>
                   <td className="border border-gray-600 px-4 py-2">
@@ -223,31 +279,32 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* Pending Seats Table */}
       {viewMode === "pending" && seats.length > 0 && (
-        <div className="w-full max-w-5xl mt-6">
-          <h2 className="text-2xl font-semibold text-center mb-4">
-            Pending Seat Requests
-          </h2>
+        <div className="w-full max-w-5xl">
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={generatePendingSeatsPDF}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Download Pending Seats PDF
+            </button>
+          </div>
           <table className="w-full text-left border-collapse border border-gray-700">
             <thead>
               <tr className="bg-gray-800">
                 <th className="border border-gray-600 px-4 py-2">S.No</th>
                 <th className="border border-gray-600 px-4 py-2">Name</th>
                 <th className="border border-gray-600 px-4 py-2">Roll No</th>
-                <th className="border border-gray-600 px-4 py-2">
-                  Seat Number
-                </th>
+                <th className="border border-gray-600 px-4 py-2">Seat No</th>
                 <th className="border border-gray-600 px-4 py-2">Department</th>
-                <th className="border border-gray-600 px-4 py-2">Status</th>
-                <th className="border border-gray-600 px-4 py-2">Actions</th>
+                <th className="border border-gray-600 px-4 py-2">Action</th>
               </tr>
             </thead>
             <tbody>
-              {seats.map((s) => (
+              {seats.map((s, index) => (
                 <tr key={s._id} className="bg-gray-700">
                   <td className="border border-gray-600 px-4 py-2">
-                    {count++}
+                    {index + 1}
                   </td>
                   <td className="border border-gray-600 px-4 py-2">{s.name}</td>
                   <td className="border border-gray-600 px-4 py-2">
@@ -258,18 +315,15 @@ const AdminDashboard = () => {
                     {s.department}
                   </td>
                   <td className="border border-gray-600 px-4 py-2">
-                    {s.status}
-                  </td>
-                  <td className="border border-gray-600 px-4 py-2">
                     <button
                       onClick={() => openConfirmationDialog(s._id, "approve")}
-                      className="bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded mr-2"
+                      className="bg-green-500 hover:bg-green-700 text-white py-1 px-3 rounded"
                     >
                       Approve
                     </button>
                     <button
                       onClick={() => openConfirmationDialog(s._id, "reject")}
-                      className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded"
+                      className="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded ml-2"
                     >
                       Reject
                     </button>
@@ -281,9 +335,8 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* Approved Seats Table */}
       {viewMode === "approved" && approvedSeats.length > 0 && (
-        <div className="w-full max-w-5xl mt-6">
+        <div className="w-full max-w-5xl">
           <div className="flex justify-end mb-4">
             <button
               onClick={generateApprovedSeatsPDF}
@@ -292,26 +345,21 @@ const AdminDashboard = () => {
               Download Approved Seats PDF
             </button>
           </div>
-          <h2 className="text-2xl font-semibold text-center mb-4">
-            Approved Seat Requests
-          </h2>
           <table className="w-full text-left border-collapse border border-gray-700">
             <thead>
               <tr className="bg-gray-800">
                 <th className="border border-gray-600 px-4 py-2">S.No</th>
                 <th className="border border-gray-600 px-4 py-2">Name</th>
                 <th className="border border-gray-600 px-4 py-2">Roll No</th>
-                <th className="border border-gray-600 px-4 py-2">
-                  Seat Number
-                </th>
+                <th className="border border-gray-600 px-4 py-2">Seat No</th>
                 <th className="border border-gray-600 px-4 py-2">Department</th>
               </tr>
             </thead>
             <tbody>
-              {approvedSeats.map((s) => (
+              {approvedSeats.map((s, index) => (
                 <tr key={s._id} className="bg-gray-700">
                   <td className="border border-gray-600 px-4 py-2">
-                    {count++}{" "}
+                    {index + 1}
                   </td>
                   <td className="border border-gray-600 px-4 py-2">{s.name}</td>
                   <td className="border border-gray-600 px-4 py-2">
@@ -328,23 +376,26 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* Confirmation Dialog */}
       {openDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white text-gray-900 p-6 rounded shadow-md text-center">
-            <h2 className="text-xl font-semibold mb-4">
-              Are you sure you want to {dialogAction} this seat?
-            </h2>
-            <div className="flex justify-center space-x-4">
+        <div
+          className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center"
+          onClick={closeConfirmationDialog}
+        >
+          <div
+            className="bg-white text-black p-6 rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold">Are you sure?</h3>
+            <div className="mt-4">
               <button
                 onClick={handleDialogConfirm}
-                className="bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded"
+                className="bg-blue-500 text-white py-2 px-4 rounded-lg"
               >
-                Yes
+                Confirm
               </button>
               <button
                 onClick={closeConfirmationDialog}
-                className="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded"
+                className="bg-gray-500 text-white py-2 px-4 rounded-lg ml-4"
               >
                 Cancel
               </button>
