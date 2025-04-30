@@ -62,7 +62,7 @@ const SeatLayout = () => {
   };
 
   const getSeatColor = (seat) => {
-    if (seatStatus[seat] === "pending") return " #fca5a5 ";
+    if (seatStatus[seat] === "pending") return " red ";
     if (seatStatus[seat] === "approved") return "#00B386";
     return "";
   };
@@ -581,7 +581,7 @@ const SeatLayout = () => {
           <span>Booked</span>
         </div>
         <div className="flex items-center mr-4 mb-2">
-          <div className="w-4 h-4 bg-red-300 rounded mr-2"></div>
+          <div className="w-4 h-4 bg-red-800 rounded mr-2"></div>
           <span>Pending</span>
         </div>
       </div>
